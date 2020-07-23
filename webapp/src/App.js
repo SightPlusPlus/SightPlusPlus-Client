@@ -1,8 +1,7 @@
 import React from 'react';
-import logo from './logo.svg';
 import './Page.css';
-import TextToSpeech from "./textToSpeech";
-import Example from './Example';
+//import VoiceConfig from "./components/voiceConfig";
+import Navigation from "./components/navigation";
 
 
 export default class App extends React.Component{
@@ -13,7 +12,9 @@ export default class App extends React.Component{
 
   render(){
     return (
-      <Example />
+        <div>
+          <Navigation />
+        </div>
     );
   }
 

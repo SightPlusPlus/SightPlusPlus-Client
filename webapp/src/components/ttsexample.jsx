@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-export default class Example extends Component {
+export default class Ttsexample extends Component {
 
     constructor(props) {
         super(props);
@@ -36,7 +36,7 @@ export default class Example extends Component {
     render() {
         return (
             <div>
-                <h1> Sight ++ </h1>
+                <h1> TTSExample </h1>
             </div>
         );
     }
