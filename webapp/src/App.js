@@ -1,5 +1,9 @@
 import React from 'react';
 import './Page.css';
+import Navigation from "./components/navigation";
+import VoiceConfig from "./components/voiceConfig";
+import Button from "react-bootstrap/Button";
+
 
 
 export default class App extends React.Component{
@@ -10,8 +14,20 @@ export default class App extends React.Component{
 
   render(){
     return (
-        <div>
+        <div className="App">
+            <header className="App-header">
+                <div className="man-user-jumbotron">
+                    <div className="reset-form-title">Sight ++</div>
+                    <br/>
+                    <Navigation/>
+                    <div className="resetPsw-form">
+                         Test
+                    </div>
+                    <br/>
+                </div>
+            </header>
         </div>
+
     );
   }
 

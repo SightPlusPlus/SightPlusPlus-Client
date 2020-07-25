@@ -116,7 +116,32 @@ label {
 }
 
 
+/*Main*/
+body{
+  background-color: #282c34;
+  /*background-image: url('./images/bg.png');*/
+  background-size: cover;
+}
 
+.man-user-jumbotron{
+  margin: 60px auto;
+  width: 80%;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius:25px;
+}
+.reset-form-title{
+  padding-top: 50px;
+  text-align: center;
+  color: black;
+  /*font-family: Arial, serif;*/
+  font-size: 2em;
+}
+.resetPsw-form{
+  margin: 30px auto;
+  width: 50%;
+  /*font-family: Arial, serif;*/
+  padding-bottom: 50px;
+}
 
 /* index.js
 body {
