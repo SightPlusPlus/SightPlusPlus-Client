@@ -6,7 +6,7 @@ export default class Navigation extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            voices: null,
+            voiceList: null,
         };
 
         //binding
@@ -19,28 +19,25 @@ export default class Navigation extends Component {
 
     // receive info using websocket to start navigation
     obtainVoices() {
-        this.state.voices = window.speechSynthesis.getVoices();
+        this.state.voiceList = window.speechSynthesis.getVoices();
     }
 
 
 
     speakTexts() {
-
         var utterThis = new SpeechSynthesisUtterance('white big car!'); // text content
-        // utterThis.onend = function (event) {
-        //     console.log('SpeechSynthesisUtterance.onend');
-        // }
-        // utterThis.onerror = function (event) {
-        //     console.error('SpeechSynthesisUtterance.onerror');
-        // }
-        utterThis.voice = this.state.voices[2]; // choose the language type(en-GB)
+        utterThis.onerror = function (event) {
+            console.error('SpeechSynthesisUtterance.onerror');
+        }
+        utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
         utterThis.pitch = 1;// pitch
         utterThis.rate = 1;// rate
         speechSynthesis.speak(utterThis); //speak
     }
 
+
     startNavigation() {
-        console.log(this.state.voices);
+        console.log(this.state.voiceList);
         //speak
         this.speakTexts();
     }
@@ -54,7 +51,7 @@ export default class Navigation extends Component {
         this.obtainVoices();
         if (speechSynthesis.onvoiceschanged !== undefined) {
             speechSynthesis.onvoiceschanged = this.obtainVoices;
-            console.log(this.state.voices);
+            console.log(this.state.voiceList);
         }
 
     }
@@ -63,11 +60,10 @@ export default class Navigation extends Component {
 
 
     render() {
-        console.log(this.state.voices);
-
         return (
             <div>
                 <h1>We are navigating for you.</h1>
+                <button type="button" className="btn btn-primary">Primary</button>
                 <button onClick={this.startNavigation}>
                     Start
                 </button>
