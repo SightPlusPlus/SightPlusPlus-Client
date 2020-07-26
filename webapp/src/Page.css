@@ -1,6 +1,6 @@
+/*App.js*/
 .App {
   text-align: center;
-  background-color: white;
 }
 
 .App-logo {
@@ -16,11 +16,11 @@
 
 .App-header {
   background-color: #282c34;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(35px + 2vmin);
   color: white;
 }
 
@@ -39,6 +39,26 @@
 
 
 
+/*index.js*/
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
+
+
+
+
+
 /* text to speech */
 body, html {
   margin: 0;
@@ -46,12 +66,6 @@ body, html {
 
 html {
   height: 100%;
-}
-
-body {
-  height: 90%;
-  max-width: 800px;
-  margin: 0 auto;
 }
 
 h1, p {
@@ -117,12 +131,6 @@ label {
 
 
 /*Main*/
-body{
-  background-color: #282c34;
-  /*background-image: url('./images/bg.png');*/
-  background-size: cover;
-}
-
 .man-user-jumbotron{
   margin: 60px auto;
   width: 80%;
@@ -143,17 +151,3 @@ body{
   padding-bottom: 50px;
 }
 
-/* index.js
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
-}*/

@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import {Button} from 'react-bootstrap';
+import { withRouter } from "react-router-dom";
 
 
-export default class Navigation extends Component {
+class Navigation extends Component {
 
     constructor(props) {
         super(props);
@@ -24,9 +25,8 @@ export default class Navigation extends Component {
     }
 
 
-
     speakTexts() {
-        var utterThis = new SpeechSynthesisUtterance('white big car!'); // text content
+        var utterThis = new SpeechSynthesisUtterance('British English rate 1 pitch 1 '); // text content
         utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
         }
@@ -64,14 +64,14 @@ export default class Navigation extends Component {
         return (
             <div>
                 <Button variant="primary" size="lg" block onClick={this.startNavigation}>
-                    Block level button
+                    Start Navigation
                 </Button>
             </div>
         );
     }
 }
 
-
+export default Navigation;
 
 
 // var ifObtained = setInterval(()=> {
