@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import Button from 'react-bootstrap/Button';
+import {Button} from 'react-bootstrap';
+
 
 export default class Navigation extends Component {
 
@@ -62,11 +63,9 @@ export default class Navigation extends Component {
     render() {
         return (
             <div>
-                <h1>We are navigating for you.</h1>
-                <button type="button" className="btn btn-primary">Primary</button>
-                <button onClick={this.startNavigation}>
-                    Start
-                </button>
+                <Button variant="primary" size="lg" block onClick={this.startNavigation}>
+                    Block level button
+                </Button>
             </div>
         );
     }

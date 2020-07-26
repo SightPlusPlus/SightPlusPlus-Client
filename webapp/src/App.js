@@ -20,9 +20,6 @@ export default class App extends React.Component{
                     <div className="reset-form-title">Sight ++</div>
                     <br/>
                     <Navigation/>
-                    <div className="resetPsw-form">
-                         Test
-                    </div>
                     <br/>
                 </div>
             </header>
