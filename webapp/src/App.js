@@ -4,7 +4,7 @@ import './Page.css';
 import Navigation from "./components/navigation";
 import VoiceConfig from "./components/voiceConfig";
 import SttExample from "./components/sttExample";
-import Stt from "./components/stt-try";
+
 
 
 
@@ -19,7 +19,7 @@ export default class App extends React.Component{
         <div className="App">
             <header className="App-header">
                 <h1>Sight ++</h1>
-                <Stt/>
+                <SttExample/>
             </header>
         </div>
     );

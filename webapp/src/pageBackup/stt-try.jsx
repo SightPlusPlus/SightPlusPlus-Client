@@ -12,35 +12,6 @@ export default class Stt extends Component {
         this.speechRecognise = this.speechRecognise.bind(this);
     }
 
-    // speechRecognise() {
-    //     var sdk = require("microsoft-cognitiveservices-speech-sdk");
-    //     console.log(sdk);
-    //     var audioConfig = sdk.AudioConfig.fromDefaultMicrophoneInput();
-    //     console.log(audioConfig);
-    //     var speechConfig = sdk.SpeechConfig.fromSubscription('1a040caa836848b88501c48411a0b2c1', 'westus');
-    //     // // setting the recognition language to English.
-    //     speechConfig.speechRecognitionLanguage = "en-UK";
-    //     console.log(speechConfig);
-    //
-    //     // // create the speech recognizer.
-    //     var recognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
-    //     console.log(recognizer);
-    //
-    //     // start the recognizer and wait for a result.
-    //     recognizer.recognizeOnceAsync(
-    //         function (result) {
-    //             console.log(result);
-    //
-    //             recognizer.close();
-    //             //recognizer = undefined;
-    //         },
-    //         function (err) {
-    //             console.trace("err - " + err);
-    //
-    //             recognizer.close();
-    //             //recognizer = undefined;
-    //         });
-    // }
 
     speechRecognise(){
         var speechConfig = window.SpeechSDK.SpeechConfig.fromSubscription('1a040caa836848b88501c48411a0b2c1', 'westus');
