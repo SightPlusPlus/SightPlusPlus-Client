@@ -10,10 +10,9 @@ export default class TtsExample extends Component {
     }
 
 
-    speakText() {
+    speakTexts() {
         var synth = window.speechSynthesis;
         var voices = synth.getVoices();//get language lists
-        var count = 0;
         console.log(voices);
 
         var utterThis = new SpeechSynthesisUtterance('hello, we are sight ++!'); // text content
@@ -24,8 +23,6 @@ export default class TtsExample extends Component {
         utterThis.rate = 1;// rate
 
         synth.speak(utterThis); //speak
-        count = count +1;
-        console.log(count);
     }
 
     componentDidMount() {

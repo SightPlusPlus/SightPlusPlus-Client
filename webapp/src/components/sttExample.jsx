@@ -8,18 +8,18 @@ export default class SttExample extends Component {
         super(props);
 
         //binding
-        this.speechRecognise = this.speechRecognise.bind(this);
+        this.recogniseSpeech = this.recogniseSpeech.bind(this);
     }
 
 
-    speechRecognise(){
+    recogniseSpeech(){
         var speechConfig = window.SpeechSDK.SpeechConfig.fromSubscription('1a040caa836848b88501c48411a0b2c1', 'westus');
         speechConfig.speechRecognitionLanguage = "en-US";
-        console.log(speechConfig);
+
         var audioConfig  = window.SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
-        var recognizer = new window.SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
-        console.log(recognizer);
-        recognizer.recognizeOnceAsync( result => {
+        var recogniser = new window.SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+
+        recogniser.recognizeOnceAsync( result => {
             console.log(result);
         },err => {
             console.log(err);
@@ -38,7 +38,7 @@ export default class SttExample extends Component {
         return (
             <div>
 
-                <Button variant="primary" size="lg" block onClick={this.speechRecognise}>
+                <Button variant="primary" size="lg" block onClick={this.recogniseSpeech}>
                     Voice Configuration
                 </Button>
 

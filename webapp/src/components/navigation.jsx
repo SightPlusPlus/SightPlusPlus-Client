@@ -52,7 +52,6 @@ class Navigation extends Component {
         this.obtainVoices();
         if (speechSynthesis.onvoiceschanged !== undefined) {
             speechSynthesis.onvoiceschanged = this.obtainVoices;
-            console.log(this.state.voiceList);
         }
 
     }
@@ -63,7 +62,7 @@ class Navigation extends Component {
     render() {
         return (
             <div>
-                <Button variant="primary" size="lg" block onClick={this.startNavigation}>
+                <Button variant="success" size="lg" block onClick={this.startNavigation}>
                     Start Navigation
                 </Button>
             </div>

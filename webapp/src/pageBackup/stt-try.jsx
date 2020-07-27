@@ -18,9 +18,9 @@ export default class Stt extends Component {
         speechConfig.speechRecognitionLanguage = "en-US";
         console.log(speechConfig);
         var audioConfig  = window.SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
-        var recognizer = new window.SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
-        console.log(recognizer);
-        recognizer.recognizeOnceAsync( result => {
+        var recogniser = new window.SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+        console.log(recogniser);
+        recogniser.recognizeOnceAsync( result => {
             console.log(result);
         },err => {
             console.log(err);

@@ -19,7 +19,8 @@ export default class App extends React.Component{
         <div className="App">
             <header className="App-header">
                 <h1>Sight ++</h1>
-                <SttExample/>
+                <Navigation/>
+                <VoiceConfig/>
             </header>
         </div>
     );
