@@ -43,19 +43,16 @@ export default class Stt extends Component {
     // }
 
     speechRecognise(){
-        // var script = document.createElement('script');
-        // script.type = 'text/javascript';
-        // script.async = true;
-        // script.src = 'https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/lib/microsoft.cognitiveservices.speech.sdk.min.js';
-        // document.head.appendChild(script);
-
-        var speechConfig = window.SpeechSDK.SpeechConfig.fromAuthorizationToken('1a040caa836848b88501c48411a0b2c1', 'westus');
+        var speechConfig = window.SpeechSDK.SpeechConfig.fromSubscription('1a040caa836848b88501c48411a0b2c1', 'westus');
+        speechConfig.speechRecognitionLanguage = "en-US";
         console.log(speechConfig);
-        speechConfig.speechRecognitionLanguage = "en-UK";
         var audioConfig  = window.SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
         var recognizer = new window.SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
-        recognizer.recognizeOnceAsync(result => {
+        console.log(recognizer);
+        recognizer.recognizeOnceAsync( result => {
             console.log(result);
+        },err => {
+            console.log(err);
         });
     }
 
