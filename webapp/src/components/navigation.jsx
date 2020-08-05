@@ -9,8 +9,8 @@ class Navigation extends Component {
         super(props);
         this.state = {
             voiceList: null,
-            langu: 2,
-            rate: 1,
+            langu: 2, // default language: British eng
+            rate: 2,
             pitch: 1
         };
 
@@ -20,23 +20,12 @@ class Navigation extends Component {
         this.startNavigation = this.startNavigation.bind(this);
     }
 
-
-
-    async componentWillReceiveProps(newProps) {
-        this.state.langu = newProps.voiceProps.langu;
-        this.state.rate = newProps.voiceProps.rate;
-        this.state.pitch = newProps.voiceProps.pitch;
-        //var nextProps = newProps.voiceProps;
-        console.log(newProps.voiceProps);
-    }
-
-
+    ws = new WebSocket('ws://localhost:7979');
 
 
 
     obtainVoices() {
         this.state.voiceList = window.speechSynthesis.getVoices();
-        //console.log(this.state.voiceList);
     }
 
 
@@ -53,11 +42,12 @@ class Navigation extends Component {
 
 
     startNavigation() {
-        //speak
-        this.speakTexts();
+        var self = this;
+        this.ws.addEventListener('message', function (event) {
+            console.log('Message from server ', event.data);
+            self.speakTexts();
+        });
     }
-
-
 
 
 
@@ -68,6 +58,16 @@ class Navigation extends Component {
             speechSynthesis.onvoiceschanged = this.obtainVoices;
         }
 
+    }
+
+
+
+    async componentWillReceiveProps(newProps) {
+        this.state.langu = newProps.voiceProps.langu;
+        this.state.rate = newProps.voiceProps.rate;
+        this.state.pitch = newProps.voiceProps.pitch;
+        //var nextProps = newProps.voiceProps;
+        console.log(newProps.voiceProps);
     }
 
 
