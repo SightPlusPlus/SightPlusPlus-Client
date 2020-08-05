@@ -9,14 +9,14 @@ export default class ConnectionExample extends Component {
 
     }
 
-    ws = new WebSocket('ws://localhost:3000');
+    ws = new WebSocket('ws://localhost:7979');
 
     componentDidMount() {
 
         // Connection opened
-        this.ws.addEventListener('open', function (event) {
-            this.ws.send('Hello Server!');
-        });
+        // this.ws.addEventListener('open', function (event) {
+        //     this.ws.send('Hello Server!');
+        // });
 
 // Listen for messages
         this.ws.addEventListener('message', function (event) {

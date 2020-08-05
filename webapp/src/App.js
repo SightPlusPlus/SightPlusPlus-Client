@@ -4,6 +4,7 @@ import './Page.css';
 import Navigation from "./components/navigation";
 import VoiceConfig from "./components/voiceConfig";
 import SttExample from "./components/sttExample";
+import ConnectionExample from "./components/connectionExample";
 
 
 
@@ -12,6 +13,15 @@ export default class App extends React.Component{
 
   constructor(props){
     super(props);
+    this.state = {
+        voiceProps: [],
+    };
+
+    this.setVoice = this.setVoice.bind(this);
+  }
+
+  setVoice = (voiceProps) => {
+      this.setState({ voiceProps: voiceProps});
   }
 
   render(){
@@ -19,14 +29,17 @@ export default class App extends React.Component{
         <div className="App">
             <header className="App-header">
                 <h1>Sight ++</h1>
-                <Navigation/>
-                <VoiceConfig/>
+                <Navigation voiceProps={this.state.voiceProps}/>
+                <VoiceConfig setVoice={this.setVoice}/>
             </header>
         </div>
     );
   }
 
 }
+
+// <Navigation voiceProps={this.state.voiceProps}/>
+// <VoiceConfig setVoice={this.setVoice}/>
 
 
 // <Switch>

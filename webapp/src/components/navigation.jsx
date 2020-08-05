@@ -9,6 +9,9 @@ class Navigation extends Component {
         super(props);
         this.state = {
             voiceList: null,
+            langu: 2,
+            rate: 1,
+            pitch: 1
         };
 
         //binding
@@ -19,26 +22,37 @@ class Navigation extends Component {
 
 
 
-    // receive info using websocket to start navigation
+    async componentWillReceiveProps(newProps) {
+        this.state.langu = newProps.voiceProps.langu;
+        this.state.rate = newProps.voiceProps.rate;
+        this.state.pitch = newProps.voiceProps.pitch;
+        //var nextProps = newProps.voiceProps;
+        console.log(newProps.voiceProps);
+    }
+
+
+
+
+
     obtainVoices() {
         this.state.voiceList = window.speechSynthesis.getVoices();
+        //console.log(this.state.voiceList);
     }
 
 
     speakTexts() {
-        var utterThis = new SpeechSynthesisUtterance('British English rate 1 pitch 1 '); // text content
+        var utterThis = new SpeechSynthesisUtterance('Red car 3 meters, right. bus stop 5 meters, left.'); // text content
         utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
         }
-        utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
-        utterThis.pitch = 1;// pitch
-        utterThis.rate = 1;// rate
+        utterThis.voice = this.state.voiceList[this.state.langu]; // choose the language type(en-GB)
+        utterThis.rate = this.state.rate;// pitch
+        utterThis.pitch = this.state.pitch;// rate
         speechSynthesis.speak(utterThis); //speak
     }
 
 
     startNavigation() {
-        console.log(this.state.voiceList);
         //speak
         this.speakTexts();
     }
