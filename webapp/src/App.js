@@ -1,11 +1,7 @@
 import React from 'react';
-//import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import './Page.css';
 import Navigation from "./components/navigation";
 import VoiceConfig from "./components/voiceConfig";
-import SttExample from "./components/sttExample";
-import ConnectionExample from "./components/connectionExample";
-
 
 
 
@@ -17,10 +13,10 @@ export default class App extends React.Component{
         voiceProps: [],
     };
 
-    this.setVoice = this.setVoice.bind(this);
+    this.setVoiceProps = this.setVoiceProps.bind(this);
   }
 
-  setVoice = (voiceProps) => {
+  setVoiceProps = (voiceProps) => {
       this.setState({ voiceProps: voiceProps});
   }
 
@@ -30,7 +26,7 @@ export default class App extends React.Component{
             <header className="App-header">
                 <h1>Sight ++</h1>
                 <Navigation voiceProps={this.state.voiceProps}/>
-                <VoiceConfig setVoice={this.setVoice}/>
+                <VoiceConfig setVoiceProps={this.setVoiceProps}/>
             </header>
         </div>
     );
