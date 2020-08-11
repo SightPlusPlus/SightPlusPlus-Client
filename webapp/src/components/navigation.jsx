@@ -28,8 +28,8 @@ class Navigation extends Component {
     }
 
 
-    speakTexts() {
-        var utterThis = new SpeechSynthesisUtterance('Red car 3 meters, right. bus stop 5 meters, left.'); // text content
+    speakTexts(text) {
+        var utterThis = new SpeechSynthesisUtterance(text); // text content
         utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
         }
@@ -43,8 +43,9 @@ class Navigation extends Component {
     startNavigation() {
         var self = this;
         this.ws.addEventListener('message', function (event) {
+
             console.log('Message from server ', event.data);
-            self.speakTexts();
+            self.speakTexts(event.data);
         });
     }
 
@@ -63,7 +64,7 @@ class Navigation extends Component {
 
     async componentWillReceiveProps(newProps) {
         this.state.langu = newProps.voiceProps.langu;
-        this.state.rate = newProps.voiceProps.rate;
+        this.state.rate = newProps.voiceProps.speed;
         this.state.pitch = newProps.voiceProps.pitch;
         //var nextProps = newProps.voiceProps;
         console.log(newProps.voiceProps);
