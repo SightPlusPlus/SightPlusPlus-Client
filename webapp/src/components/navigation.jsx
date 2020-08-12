@@ -52,9 +52,6 @@ class Navigation extends Component {
             }
         )
 
-        bell.play();
-
-
         const socket = new WebSocket('ws://localhost:7979');
         var self = this;
 
@@ -64,8 +61,11 @@ class Navigation extends Component {
         })
 
         socket.addEventListener('message', function(event) {
-            console.log('Message from server ', event.data);
-            self.speakTexts("hh");
+            if (-1) { // if receive a signal
+                bell.play();
+            }
+            //console.log('Message from server ', event.data);
+            self.speakTexts(event.data);
         })
 
     }
