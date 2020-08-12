@@ -44,6 +44,8 @@ class Navigation extends Component {
 
 
     startNavigation() {
+        const socket = new WebSocket('ws://localhost:7979');
+        var self = this;
         const bell = new UIfx(
             beepsound,
             {
@@ -52,13 +54,12 @@ class Navigation extends Component {
             }
         )
 
-        const socket = new WebSocket('ws://localhost:7979');
-        var self = this;
-
-        var jsonData = JSON.stringify(self.state.objects);
-        socket.addEventListener('open', function(event) {
-            socket.send(jsonData);
-        })
+        if (self.state.objects != null) {
+            var jsonData = JSON.stringify(self.state.objects);
+            socket.addEventListener('open', function(event) {
+                socket.send(jsonData);
+            })
+        }
 
         socket.addEventListener('message', function(event) {
             if (-1) { // if receive a signal
@@ -98,7 +99,7 @@ class Navigation extends Component {
     render() {
         return (
             <div>
-                <Button variant="success" size="lg" block onClick={this.startNavigation}>
+                <Button variant="warning" size="lg" block onClick={this.startNavigation}>
                     Start Navigation
                 </Button>
             </div>

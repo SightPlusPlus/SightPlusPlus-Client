@@ -47,7 +47,7 @@ export default class ObjectAddition extends Component {
 
     setObjects() {
         this.speakTexts('Hello, in this system, you can .. Now, please say your preferred language, speed and pitch. after three d sound. d d d');
-        setTimeout(this.recogniseSpeech, 40000);
+        setTimeout(this.recogniseSpeech, 10000);
     }
 
 

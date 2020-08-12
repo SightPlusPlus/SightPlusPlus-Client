@@ -33,8 +33,10 @@ export default class App extends React.Component{
             <header className="App-header">
                 <h1>Sight ++</h1>
                 <Navigation voiceProps={this.state.voiceProps} objects={this.state.objects} />
-                <VoiceConfig setVoiceProps={this.setVoiceProps}/>
+                <br/>
                 <ObjectAddition setExtraObject={this.setExtraObject}/>
+                <br/>
+                <VoiceConfig setVoiceProps={this.setVoiceProps}/>
             </header>
         </div>
     );
