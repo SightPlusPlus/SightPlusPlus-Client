@@ -14,9 +14,9 @@ export default class ConnectionExample extends Component {
     componentDidMount() {
 
         // Connection opened
-        // this.ws.addEventListener('open', function (event) {
-        //     this.ws.send('Hello Server!');
-        // });
+        this.ws.addEventListener('open', function (event) {
+            this.ws.send('Hello Server!');
+        });
 
 
         this.ws.addEventListener('message', function (event) {

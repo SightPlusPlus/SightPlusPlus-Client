@@ -2,6 +2,7 @@ import React from 'react';
 import './Page.css';
 import Navigation from "./components/navigation";
 import VoiceConfig from "./components/voiceConfig";
+import ObjectAddition from "./components/objectAddition";
 
 
 
@@ -11,13 +12,19 @@ export default class App extends React.Component{
     super(props);
     this.state = {
         voiceProps: [],
+        objects: []
     };
 
     this.setVoiceProps = this.setVoiceProps.bind(this);
+    this.setExtraObject = this.setExtraObject.bind(this);
   }
 
   setVoiceProps = (voiceProps) => {
       this.setState({ voiceProps: voiceProps});
+  }
+
+  setExtraObject = (objects) => {
+      this.setState({ objects: objects});
   }
 
   render(){
@@ -25,8 +32,9 @@ export default class App extends React.Component{
         <div className="App">
             <header className="App-header">
                 <h1>Sight ++</h1>
-                <Navigation voiceProps={this.state.voiceProps}/>
+                <Navigation voiceProps={this.state.voiceProps} objects={this.state.objects} />
                 <VoiceConfig setVoiceProps={this.setVoiceProps}/>
+                <ObjectAddition setExtraObject={this.setExtraObject}/>
             </header>
         </div>
     );

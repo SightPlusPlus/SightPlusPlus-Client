@@ -13,7 +13,7 @@ export default class VoiceConfig extends Component {
     }
 
     recogniseSpeech(){
-        var speechConfig = window.SpeechSDK.SpeechConfig.fromSubscription('1a040caa836848b88501c48411a0b2c1', 'westus');
+        var speechConfig = window.SpeechSDK.SpeechConfig.fromSubscription('089ccb86c773418db9cf38d11833f5a0', 'westus');
         speechConfig.speechRecognitionLanguage = "en-US";
         var audioConfig  = window.SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
         var recogniser = new window.SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
@@ -81,6 +81,11 @@ export default class VoiceConfig extends Component {
 
 
     setVoice() {
+        // var langu = 2;
+        // var speed = 1.5;
+        // var pitch = 1.5;
+        // let voiceProps = {langu, speed, pitch};
+        // this.props.setVoiceProps(voiceProps);
         this.speakTexts('Hello, in this system, you can choose British English or American English... You can also set the speed and pitch of the voice. The recommended voice speed and pitch are both 1...' +
             'You can set these items by speaking.. For example, if you choose British English, please say your preference in this form... ' +
             'British English, speed 1, pitch 1.. Now, please say your preferred language, speed and pitch. after three d sound. d d d');

@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import {Button} from 'react-bootstrap';
+import UIfx from 'uifx';
+import beepsound from '../beepsound.mp3';
 
 
 class Navigation extends Component {
@@ -10,7 +12,8 @@ class Navigation extends Component {
             voiceList: null,
             langu: 2, // default language: British eng
             rate: 2,
-            pitch: 1
+            pitch: 1,
+            objects: null,
         };
 
         //binding
@@ -19,7 +22,7 @@ class Navigation extends Component {
         this.startNavigation = this.startNavigation.bind(this);
     }
 
-    ws = new WebSocket('ws://localhost:7979');
+    //ws = new WebSocket('ws://localhost:7979');
 
 
 
@@ -41,12 +44,30 @@ class Navigation extends Component {
 
 
     startNavigation() {
-        var self = this;
-        this.ws.addEventListener('message', function (event) {
+        const bell = new UIfx(
+            beepsound,
+            {
+                volume: 1, // 0~1
+                throttleMs: 100
+            }
+        )
 
+        bell.play();
+
+
+        const socket = new WebSocket('ws://localhost:7979');
+        var self = this;
+
+        var jsonData = JSON.stringify(self.state.objects);
+        socket.addEventListener('open', function(event) {
+            socket.send(jsonData);
+        })
+
+        socket.addEventListener('message', function(event) {
             console.log('Message from server ', event.data);
-            self.speakTexts(event.data);
-        });
+            self.speakTexts("hh");
+        })
+
     }
 
 
@@ -63,11 +84,12 @@ class Navigation extends Component {
 
 
     async componentWillReceiveProps(newProps) {
+        console.log(newProps);
         this.state.langu = newProps.voiceProps.langu;
         this.state.rate = newProps.voiceProps.speed;
         this.state.pitch = newProps.voiceProps.pitch;
-        //var nextProps = newProps.voiceProps;
-        console.log(newProps.voiceProps);
+        this.state.objects = newProps.objects;
+        console.log(this.state);
     }
 
 
