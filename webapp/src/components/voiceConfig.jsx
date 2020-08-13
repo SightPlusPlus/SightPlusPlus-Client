@@ -10,6 +10,7 @@ export default class VoiceConfig extends Component {
         this.setVoice = this.setVoice.bind(this);
         this.speakTexts = this.speakTexts.bind(this);
         this.recogniseSpeech = this.recogniseSpeech.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     recogniseSpeech(){
@@ -89,11 +90,36 @@ export default class VoiceConfig extends Component {
 
 
 
+    handleClick () {
+        if (this.state.preClickTime == null) {
+            console.log("first click");
+            var d = new Date();
+            this.state.preClickTime = d.getTime();
+            this.speakTexts("This button can let you set the voice mode. If you want to use this function, please click it again immediately.");
+        }else{
+            console.log("second click");
+            var d = new Date();
+            this.state.postClickTime = d.getTime();
+            if(this.state.postClickTime - this.state.preClickTime > 8000) {
+                console.log("expired");
+                this.state.preClickTime = null;
+                this.state.postClickTime = null;
+            }else {
+                console.log("not expired");
+                this.setVoice();
+                this.state.preClickTime = null;
+                this.state.postClickTime = null;
+            }
+        }
+    }
+
+
+
     render() {
         return (
             <div>
-                <Button variant="primary" size="lg" block onClick={this.setVoice}>
-                    Start Voice Configuration
+                <Button variant="primary" size="lg" block onClick={this.handleClick}>
+                    Voice Mode
                 </Button>
             </div>
         );

@@ -14,12 +14,15 @@ class Navigation extends Component {
             rate: 2,
             pitch: 1,
             objects: null,
+            preClickTime: null,
+            postClickTime: null
         };
 
         //binding
         this.speakTexts = this.speakTexts.bind(this);
         this.obtainVoices = this.obtainVoices.bind(this);
         this.startNavigation = this.startNavigation.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     //ws = new WebSocket('ws://localhost:7979');
@@ -52,13 +55,13 @@ class Navigation extends Component {
                 volume: 1, // 0~1
                 throttleMs: 100
             }
-        )
+        );
 
         if (self.state.objects != null) {
             var jsonData = JSON.stringify(self.state.objects);
             socket.addEventListener('open', function(event) {
                 socket.send(jsonData);
-            })
+            });
         }
 
         socket.addEventListener('message', function(event) {
@@ -95,12 +98,37 @@ class Navigation extends Component {
 
 
 
+    handleClick () {
+        if (this.state.preClickTime == null) {
+            console.log("first click");
+            var d = new Date();
+            this.state.preClickTime = d.getTime();
+            this.speakTexts("This button can offer obstacle avoidance service. If you want to use this function, please click it again immediately.");
+        }else{
+            console.log("second click");
+            var d = new Date();
+            this.state.postClickTime = d.getTime();
+            if(this.state.postClickTime - this.state.preClickTime > 8000) {
+                console.log("expired");
+                this.state.preClickTime = null;
+                this.state.postClickTime = null;
+            }else {
+                console.log("not expired");
+                this.startNavigation();
+                this.state.preClickTime = null;
+                this.state.postClickTime = null;
+            }
+        }
+    }
+
+
+
 
     render() {
         return (
             <div>
-                <Button variant="warning" size="lg" block onClick={this.startNavigation}>
-                    Start Navigation
+                <Button variant="warning" size="lg" block onClick={this.handleClick}>
+                    Start
                 </Button>
             </div>
         );
