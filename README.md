@@ -23,3 +23,10 @@ Run these commands below:
 ```bash
 npm install
 ```
+
+
+## Run the Web Application
+open CMD in the 'webapp' folder. Run these commands below:
+```bash
+yarn start
+```
