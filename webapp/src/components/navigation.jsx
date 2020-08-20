@@ -27,7 +27,7 @@ class Navigation extends Component {
         this.stopNavigate = this.stopNavigate.bind(this);
     }
 
-    //ws = new WebSocket('ws://localhost:7979');
+    //socket = new WebSocket('ws://localhost:7979');
 
 
 
@@ -53,8 +53,7 @@ class Navigation extends Component {
         // console.log(typeof(obj));
         // console.log(obj.name);
 
-        const socket = new WebSocket('ws://localhost:7979');
-        var self = this;
+        this.state.socket = new WebSocket('ws://localhost:7979');
         const bell = new UIfx(
             beepsound,
             {
@@ -63,22 +62,21 @@ class Navigation extends Component {
             }
         );
 
-
-        if (self.state.objects != null) {
-            var jsonData = JSON.stringify(self.state.objects);
-            socket.addEventListener('open', function(event) {
-                socket.send(jsonData);
+        if (this.state.objects != null) {
+            var jsonData = JSON.stringify(this.state.objects);
+            this.state.socket.addEventListener('open', function(event) {
+                this.state.socket.send(jsonData);
             });
         }
 
 
-        socket.addEventListener('message', function(event) {
+        this.state.socket.addEventListener('message', function(event) {
             console.log(event.data);
             var obj = JSON.parse(event.data);
             if (obj.priority == 4) { // if receive a emergency signal
                 bell.play();
             }else {
-                self.speakTexts(obj.msg);
+                this.speakTexts(obj.msg);
             }
         })
 
@@ -134,7 +132,8 @@ class Navigation extends Component {
     }
 
     stopNavigate () {
-
+        this.state.socket.close();
+        this.speakTexts('Obstacle avoidance has stopped.');
     }
 
 
