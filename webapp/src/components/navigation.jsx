@@ -49,9 +49,7 @@ class Navigation extends Component {
     startNavigation() {
         // var obj = JSON.parse('{ "name":"runoob", "alexa":10000, "site":"www.runoob.com" }');
         // console.log(typeof(obj));
-        // console.log(obj);
-
-
+        // console.log(obj.name);
 
         const socket = new WebSocket('ws://localhost:7979');
         var self = this;
@@ -72,17 +70,14 @@ class Navigation extends Component {
         }
 
 
-        console.log("hhhhhh");
-
         socket.addEventListener('message', function(event) {
             console.log(event.data);
-            const testdata = JSON.parse(event.data);
-
-            if (-1) { // if receive a emergency signal
+            var obj = JSON.parse(event.data);
+            if (obj.priority == 4) { // if receive a emergency signal
                 bell.play();
+            }else {
+                self.speakTexts(obj.msg);
             }
-
-            self.speakTexts(event.data);
         })
 
     }
@@ -110,8 +105,6 @@ class Navigation extends Component {
         if (newProps.objects != null) {
             this.state.objects = newProps.objects;
         }
-
-
         console.log(this.state);
     }
 
