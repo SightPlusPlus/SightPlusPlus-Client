@@ -1,6 +1,6 @@
 # SightPP_VoiceInterface
 
-## Installation
+## Prerequisites
 + Install Node.js
 
 Download the installation package from the official website of Node.js (https://nodejs.org/en/). 
