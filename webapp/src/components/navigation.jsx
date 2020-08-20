@@ -15,7 +15,8 @@ class Navigation extends Component {
             pitch: 1.5,
             objects: null,
             preClickTime: null,
-            postClickTime: null
+            postClickTime: null,
+            runFun: false
         };
 
         //binding
@@ -23,6 +24,7 @@ class Navigation extends Component {
         this.obtainVoices = this.obtainVoices.bind(this);
         this.startNavigation = this.startNavigation.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.stopNavigate = this.stopNavigate.bind(this);
     }
 
     //ws = new WebSocket('ws://localhost:7979');
@@ -131,6 +133,10 @@ class Navigation extends Component {
         }
     }
 
+    stopNavigate () {
+
+    }
+
 
 
 
@@ -139,6 +145,10 @@ class Navigation extends Component {
             <div>
                 <Button variant="warning" size="lg" block onClick={this.handleClick}>
                     Start
+                </Button>
+                <br/>
+                <Button variant="danger" size="lg" block onClick={this.stopNavigate}>
+                    Stop
                 </Button>
             </div>
         );
