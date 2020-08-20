@@ -78,7 +78,7 @@ class Navigation extends Component {
             console.log(event.data);
             //const testdata = JSON.parse(event.data);
 
-            // if (-1) { // if receive a signal
+            // if (-1) { // if receive a emergency signal
             //     bell.play();
             // }
 
