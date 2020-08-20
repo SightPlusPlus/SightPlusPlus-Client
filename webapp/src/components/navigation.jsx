@@ -53,6 +53,7 @@ class Navigation extends Component {
         // console.log(typeof(obj));
         // console.log(obj.name);
 
+        var self = this;
         this.state.socket = new WebSocket('ws://localhost:7979');
         const bell = new UIfx(
             beepsound,
@@ -65,7 +66,7 @@ class Navigation extends Component {
         if (this.state.objects != null) {
             var jsonData = JSON.stringify(this.state.objects);
             this.state.socket.addEventListener('open', function(event) {
-                this.state.socket.send(jsonData);
+                self.state.socket.send(jsonData);
             });
         }
 
@@ -76,7 +77,7 @@ class Navigation extends Component {
             if (obj.priority == 4) { // if receive a emergency signal
                 bell.play();
             }else {
-                this.speakTexts(obj.msg);
+                self.speakTexts(obj.msg);
             }
         })
 
