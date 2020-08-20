@@ -5,6 +5,10 @@ export default class VoiceConfig extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            preClickTime: null,
+            postClickTime: null
+        };
 
         //binding
         this.setVoice = this.setVoice.bind(this);
@@ -82,9 +86,9 @@ export default class VoiceConfig extends Component {
 
 
     setVoice() {
-        this.speakTexts('Hello, in this system, you can choose British English or American English... You can also set the speed and pitch of the voice. The recommended voice speed and pitch are both 1...' +
-            'You can set these items by speaking.. For example, if you choose British English, please say your preference in this form... ' +
-            'British English, speed 1, pitch 1.. Now, please say your preferred language, speed and pitch. after three d sound. d d d');
+        this.speakTexts('Hello, in this system, you can choose British English or American English... You can also set the speed and pitch of the voice. The recommended voice speed and pitch are both 1.5...' +
+        'But you can still set them by speaking… For example, if you choose British English and a lower speed and pitch, both of them are 1, please say your preference in this form... British English, speed 1, pitch 1..' +
+         'Now, please say your preferred language, speed and pitch. after three d sound. d d d');
         setTimeout(this.recogniseSpeech, 40000);
     }
 
@@ -101,11 +105,9 @@ export default class VoiceConfig extends Component {
             var d = new Date();
             this.state.postClickTime = d.getTime();
             if(this.state.postClickTime - this.state.preClickTime > 8000) {
-                console.log("expired");
                 this.state.preClickTime = null;
                 this.state.postClickTime = null;
             }else {
-                console.log("not expired");
                 this.setVoice();
                 this.state.preClickTime = null;
                 this.state.postClickTime = null;

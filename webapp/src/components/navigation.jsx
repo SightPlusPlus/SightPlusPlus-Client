@@ -12,7 +12,7 @@ class Navigation extends Component {
             voiceList: null,
             langu: 2, // default language: British eng
             rate: 2,
-            pitch: 1,
+            pitch: 1.5,
             objects: null,
             preClickTime: null,
             postClickTime: null
@@ -40,13 +40,19 @@ class Navigation extends Component {
             console.error('SpeechSynthesisUtterance.onerror');
         }
         utterThis.voice = this.state.voiceList[this.state.langu]; // choose the language type(en-GB)
-        utterThis.rate = this.state.rate;// pitch
-        utterThis.pitch = this.state.pitch;// rate
+        utterThis.rate = this.state.rate;// rate
+        utterThis.pitch = this.state.pitch;// pitch
         speechSynthesis.speak(utterThis); //speak
     }
 
 
     startNavigation() {
+        // var obj = JSON.parse('{ "name":"runoob", "alexa":10000, "site":"www.runoob.com" }');
+        // console.log(typeof(obj));
+        // console.log(obj);
+
+
+
         const socket = new WebSocket('ws://localhost:7979');
         var self = this;
         const bell = new UIfx(
@@ -57,19 +63,26 @@ class Navigation extends Component {
             }
         );
 
+
         if (self.state.objects != null) {
             var jsonData = JSON.stringify(self.state.objects);
             socket.addEventListener('open', function(event) {
                 socket.send(jsonData);
+                console.log("eeeeeee");
             });
         }
 
+
+        console.log("hhhhhh");
         socket.addEventListener('message', function(event) {
-            if (-1) { // if receive a signal
-                bell.play();
-            }
-            //console.log('Message from server ', event.data);
-            self.speakTexts(event.data);
+            console.log(event.data);
+            //const testdata = JSON.parse(event.data);
+
+            // if (-1) { // if receive a signal
+            //     bell.play();
+            // }
+
+            //self.speakTexts(event.data);
         })
 
     }
@@ -89,10 +102,16 @@ class Navigation extends Component {
 
     async componentWillReceiveProps(newProps) {
         console.log(newProps);
-        this.state.langu = newProps.voiceProps.langu;
-        this.state.rate = newProps.voiceProps.speed;
-        this.state.pitch = newProps.voiceProps.pitch;
-        this.state.objects = newProps.objects;
+        if (newProps.voiceProps.langu != null) {
+            this.state.langu = newProps.voiceProps.langu;
+            this.state.rate = newProps.voiceProps.speed;
+            this.state.pitch = newProps.voiceProps.pitch;
+        }
+        if (newProps.objects != null) {
+            this.state.objects = newProps.objects;
+        }
+
+
         console.log(this.state);
     }
 
@@ -109,11 +128,9 @@ class Navigation extends Component {
             var d = new Date();
             this.state.postClickTime = d.getTime();
             if(this.state.postClickTime - this.state.preClickTime > 8000) {
-                console.log("expired");
                 this.state.preClickTime = null;
                 this.state.postClickTime = null;
             }else {
-                console.log("not expired");
                 this.startNavigation();
                 this.state.preClickTime = null;
                 this.state.postClickTime = null;

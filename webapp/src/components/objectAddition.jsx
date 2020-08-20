@@ -5,6 +5,10 @@ export default class ObjectAddition extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            preClickTime: null,
+            postClickTime: null
+        };
 
         //binding
         this.recogniseSpeech = this.recogniseSpeech.bind(this);
@@ -46,7 +50,7 @@ export default class ObjectAddition extends Component {
 
 
     setObjects() {
-        this.speakTexts('Hello, in this system, you can .. Now, please say your preferred language, speed and pitch. after three d sound. d d d');
+        this.speakTexts('Hello, in this system, you can mark the objects you preferred by speaking... Now, please say the name of your preferred objects. after three d sound. d d d');
         setTimeout(this.recogniseSpeech, 10000);
     }
 
@@ -56,17 +60,15 @@ export default class ObjectAddition extends Component {
             console.log("first click");
             var d = new Date();
             this.state.preClickTime = d.getTime();
-            this.speakTexts("This button can let you set the preferred obstacles which you would like to know first. If you want to use this function, please click it again immediately.");
+            this.speakTexts("This button can let you set the preferred objects which you would like to know first. If you want to use this function, please click it again immediately..");
         }else{
             console.log("second click");
             var d = new Date();
             this.state.postClickTime = d.getTime();
             if(this.state.postClickTime - this.state.preClickTime > 8000) {
-                console.log("expired");
                 this.state.preClickTime = null;
                 this.state.postClickTime = null;
             }else {
-                console.log("not expired");
                 this.setObjects();
                 this.state.preClickTime = null;
                 this.state.postClickTime = null;
