@@ -9,13 +9,9 @@ Choose the LTS version.
 + (For Windows) Add the installation directory into the environment variables of your OS.
 
 
-+ Install React
 
-Open the CMD window and run these commands below:
-```bash
-npm install react
-```
 
+## Run the Web Application
 + Install the dependencies
 
 After you download the project package and extract it, open CMD in the 'webapp' folder. 
@@ -24,9 +20,7 @@ Run these commands below:
 npm install
 ```
 
-
-## Run the Web Application
-open CMD in the 'webapp' folder. Run these commands below:
++ Run the web application
 ```bash
 yarn start
 ```

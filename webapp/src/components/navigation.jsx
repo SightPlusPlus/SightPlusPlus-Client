@@ -68,21 +68,21 @@ class Navigation extends Component {
             var jsonData = JSON.stringify(self.state.objects);
             socket.addEventListener('open', function(event) {
                 socket.send(jsonData);
-                console.log("eeeeeee");
             });
         }
 
 
         console.log("hhhhhh");
+
         socket.addEventListener('message', function(event) {
             console.log(event.data);
-            //const testdata = JSON.parse(event.data);
+            const testdata = JSON.parse(event.data);
 
-            // if (-1) { // if receive a emergency signal
-            //     bell.play();
-            // }
+            if (-1) { // if receive a emergency signal
+                bell.play();
+            }
 
-            //self.speakTexts(event.data);
+            self.speakTexts(event.data);
         })
 
     }
