@@ -76,12 +76,12 @@ class Navigation extends Component {
 
         this.state.socket.addEventListener('message', function(event) {
             console.log(event.data);
-            // var obj = JSON.parse(event.data);
-            // if (obj.priority == 4) { // if receive a emergency signal
-            //     bell.play();
-            // }else {
-            //     self.speakTexts(obj.msg);
-            // }
+            var obj = JSON.parse(event.data);
+            if (obj.priority == 4) { // if receive a emergency signal
+                bell.play();
+            }else {
+                self.speakTexts(obj.msg);
+            }
             self.speakTexts(event.data);
         })
 
@@ -135,6 +135,7 @@ class Navigation extends Component {
             }
         }
     }
+
 
     stopNavigate () {
         this.state.synth.cancel();
