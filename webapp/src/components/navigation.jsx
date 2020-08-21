@@ -9,6 +9,7 @@ class Navigation extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            synth: null,
             voiceList: null,
             langu: 2, // default language: British eng
             rate: 2,
@@ -32,7 +33,8 @@ class Navigation extends Component {
 
 
     obtainVoices() {
-        this.state.voiceList = window.speechSynthesis.getVoices();
+        this.state.synth = window.speechSynthesis;
+        this.state.voiceList = this.state.synth.getVoices();
     }
 
 
@@ -44,7 +46,8 @@ class Navigation extends Component {
         utterThis.voice = this.state.voiceList[this.state.langu]; // choose the language type(en-GB)
         utterThis.rate = this.state.rate;// rate
         utterThis.pitch = this.state.pitch;// pitch
-        speechSynthesis.speak(utterThis); //speak
+        this.state.synth.speak(utterThis);
+        //speechSynthesis.speak(utterThis); //speak
     }
 
 
@@ -73,12 +76,13 @@ class Navigation extends Component {
 
         this.state.socket.addEventListener('message', function(event) {
             console.log(event.data);
-            var obj = JSON.parse(event.data);
-            if (obj.priority == 4) { // if receive a emergency signal
-                bell.play();
-            }else {
-                self.speakTexts(obj.msg);
-            }
+            // var obj = JSON.parse(event.data);
+            // if (obj.priority == 4) { // if receive a emergency signal
+            //     bell.play();
+            // }else {
+            //     self.speakTexts(obj.msg);
+            // }
+            self.speakTexts(event.data);
         })
 
     }
@@ -133,8 +137,9 @@ class Navigation extends Component {
     }
 
     stopNavigate () {
+        this.state.synth.cancel();
         this.state.socket.close();
-        this.speakTexts('Obstacle avoidance has stopped.');
+        this.speakTexts('Obstacle avoidance stopped.');
     }
 
 
