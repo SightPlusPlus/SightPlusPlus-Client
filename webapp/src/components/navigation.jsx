@@ -46,16 +46,12 @@ class Navigation extends Component {
         utterThis.voice = this.state.voiceList[this.state.langu]; // choose the language type(en-GB)
         utterThis.rate = this.state.rate;// rate
         utterThis.pitch = this.state.pitch;// pitch
-        this.state.synth.speak(utterThis);
-        //speechSynthesis.speak(utterThis); //speak
+        this.state.synth.speak(utterThis);//speak
+        //speechSynthesis.speak(utterThis);
     }
 
 
     startNavigation() {
-        // var obj = JSON.parse('{ "name":"runoob", "alexa":10000, "site":"www.runoob.com" }');
-        // console.log(typeof(obj));
-        // console.log(obj.name);
-
         var self = this;
         this.state.socket = new WebSocket('ws://localhost:7979');
         const bell = new UIfx(
@@ -67,9 +63,8 @@ class Navigation extends Component {
         );
 
         if (this.state.objects != null) {
-            var jsonData = JSON.stringify(this.state.objects);
             this.state.socket.addEventListener('open', function(event) {
-                self.state.socket.send(jsonData);
+                self.state.socket.send(self.state.objects);
             });
         }
 
@@ -82,7 +77,6 @@ class Navigation extends Component {
             }else {
                 self.speakTexts(obj.msg);
             }
-            self.speakTexts(event.data);
         })
 
     }
