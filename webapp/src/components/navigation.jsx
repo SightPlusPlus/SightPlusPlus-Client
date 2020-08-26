@@ -11,6 +11,7 @@ class Navigation extends Component {
         this.state = {
             synth: null,
             voiceList: null,
+            isMute: false,
             langu: 2, // default language: British eng
             rate: 2,
             pitch: 1.5,
@@ -71,12 +72,15 @@ class Navigation extends Component {
 
         this.state.socket.addEventListener('message', function(event) {
             console.log(event.data);
-            var obj = JSON.parse(event.data);
-            if (obj.priority == 4) { // if receive a emergency signal
-                bell.play();
-            }else {
-                self.speakTexts(obj.msg);
+            if (self.state.isMute == false) {
+                self.speakTexts(event.data);
             }
+            // var obj = JSON.parse(event.data);
+            // if (obj.priority == 4) { // if receive a emergency signal
+            //     bell.play();
+            // }else {
+            //     self.speakTexts(obj.msg);
+            // }
         })
 
     }
@@ -96,15 +100,20 @@ class Navigation extends Component {
 
     async componentWillReceiveProps(newProps) {
         console.log(newProps);
-        if (newProps.voiceProps.langu != null) {
-            this.state.langu = newProps.voiceProps.langu;
-            this.state.rate = newProps.voiceProps.speed;
-            this.state.pitch = newProps.voiceProps.pitch;
+        if (newProps.muteFlag == true) {
+            console.log("mute");
+            this.state.isMute = true;
+            this.state.synth.cancel();
+        }else {
+            if (newProps.voiceProps.langu != null) {
+                this.state.langu = newProps.voiceProps.langu;
+                this.state.rate = newProps.voiceProps.speed;
+                this.state.pitch = newProps.voiceProps.pitch;
+            }
+            if (newProps.objects != null) {
+                this.state.objects = newProps.objects;
+            }
         }
-        if (newProps.objects != null) {
-            this.state.objects = newProps.objects;
-        }
-        console.log(this.state);
     }
 
 
@@ -120,12 +129,16 @@ class Navigation extends Component {
             var d = new Date();
             this.state.postClickTime = d.getTime();
             if(this.state.postClickTime - this.state.preClickTime > 8000) {
-                this.state.preClickTime = null;
-                this.state.postClickTime = null;
+                this.setState({
+                    preClickTime: null,
+                    postClickTime: null
+                });
             }else {
                 this.startNavigation();
-                this.state.preClickTime = null;
-                this.state.postClickTime = null;
+                this.setState({
+                    preClickTime: null,
+                    postClickTime: null
+                });
             }
         }
     }

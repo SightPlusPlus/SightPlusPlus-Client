@@ -108,12 +108,16 @@ export default class VoiceConfig extends Component {
             var d = new Date();
             this.state.postClickTime = d.getTime();
             if(this.state.postClickTime - this.state.preClickTime > 9000) {
-                this.state.preClickTime = null;
-                this.state.postClickTime = null;
+                this.setState({
+                    preClickTime: null,
+                    postClickTime: null
+                });
             }else {
                 this.setVoice();
-                this.state.preClickTime = null;
-                this.state.postClickTime = null;
+                this.setState({
+                    preClickTime: null,
+                    postClickTime: null
+                });
             }
         }
     }

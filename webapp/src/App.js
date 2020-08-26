@@ -3,6 +3,8 @@ import './Page.css';
 import Navigation from "./components/navigation";
 import VoiceConfig from "./components/voiceConfig";
 import ObjectAddition from "./components/objectAddition";
+import {Button} from "react-bootstrap";
+import MuteVoices from "./components/muteVoices";
 
 
 
@@ -12,32 +14,48 @@ export default class App extends React.Component{
     super(props);
     this.state = {
         voiceProps: [],
-        objects: []
+        objects: [],
+        muteFlag: false
     };
 
     this.setVoiceProps = this.setVoiceProps.bind(this);
     this.setExtraObject = this.setExtraObject.bind(this);
+    this.muteVoice = this.muteVoice.bind(this);
   }
 
   setVoiceProps = (voiceProps) => {
-      this.setState({ voiceProps: voiceProps});
+      this.setState({
+          muteFlag: false,
+          voiceProps: voiceProps
+      });
   }
 
   setExtraObject = (objects) => {
-      this.setState({ objects: objects});
+      this.setState({
+          muteFlag: false,
+          objects: objects
+      });
   }
 
-  render(){
+  muteVoice = (muteFlag) => {
+      this.setState({
+          muteFlag: muteFlag
+      });
+  }
+
+
+    render(){
     return (
         <div className="App">
             <header className="App-header">
                 <h1>Sight ++</h1>
+                <MuteVoices muteVoice={this.muteVoice} />
                 <br/>
-                <Navigation voiceProps={this.state.voiceProps} objects={this.state.objects} />
+                <Navigation voiceProps={this.state.voiceProps} objects={this.state.objects} muteFlag={this.state.muteFlag} />
                 <br/>
-                <VoiceConfig setVoiceProps={this.setVoiceProps}/>
+                <VoiceConfig setVoiceProps={this.setVoiceProps} />
                 <br/>
-                <ObjectAddition setExtraObject={this.setExtraObject}/>
+                <ObjectAddition setExtraObject={this.setExtraObject} />
             </header>
         </div>
     );

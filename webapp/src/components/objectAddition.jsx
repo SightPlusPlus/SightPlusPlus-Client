@@ -6,6 +6,7 @@ export default class ObjectAddition extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            syth: null,
             preClickTime: null,
             postClickTime: null
         };
@@ -51,16 +52,16 @@ export default class ObjectAddition extends Component {
         });
     }
 
-    speakTexts(texts) {
-        var synth = window.speechSynthesis;
-        var voices = synth.getVoices();//get language lists
-
-        var utterThis = new SpeechSynthesisUtterance(texts); // text content
-        utterThis.voice = voices[2]; // choose the language type(en-GB)
-        utterThis.pitch = 2;// pitch
-        utterThis.rate = 1.5;// speed
-
-        synth.speak(utterThis); //speak
+    speakTexts(text) {
+        var utterThis = new SpeechSynthesisUtterance(text); // text content
+        utterThis.onerror = function (event) {
+            console.error('SpeechSynthesisUtterance.onerror');
+        }
+        utterThis.voice = this.state.voiceList[this.state.langu]; // choose the language type(en-GB)
+        utterThis.rate = this.state.rate;// rate
+        utterThis.pitch = this.state.pitch;// pitch
+        this.state.synth.speak(utterThis);//speak
+        //speechSynthesis.speak(utterThis);
     }
 
 
@@ -81,12 +82,16 @@ export default class ObjectAddition extends Component {
             var d = new Date();
             this.state.postClickTime = d.getTime();
             if(this.state.postClickTime - this.state.preClickTime > 15000) {
-                this.state.preClickTime = null;
-                this.state.postClickTime = null;
+                this.setState({
+                    preClickTime: null,
+                    postClickTime: null
+                });
             }else {
                 this.setObjects();
-                this.state.preClickTime = null;
-                this.state.postClickTime = null;
+                this.setState({
+                    preClickTime: null,
+                    postClickTime: null
+                });
             }
         }
     }
