@@ -20,6 +20,7 @@ export default class App extends React.Component{
     this.setVoiceProps = this.setVoiceProps.bind(this);
     this.setExtraObject = this.setExtraObject.bind(this);
     this.muteVoice = this.muteVoice.bind(this);
+    this.stopAll = this.stopAll.bind(this);
   }
 
   setVoiceProps = (voiceProps) => {
@@ -40,6 +41,10 @@ export default class App extends React.Component{
       this.setState({
           muteFlag: muteFlag
       });
+  }
+
+  stopAll= (compoId) => {
+
   }
 
 

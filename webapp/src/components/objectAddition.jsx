@@ -7,6 +7,7 @@ export default class ObjectAddition extends Component {
         super(props);
         this.state = {
             synth: null,
+            utterThis: null,
             voiceList: null,
             preClickTime: null,
             postClickTime: null
@@ -41,8 +42,6 @@ export default class ObjectAddition extends Component {
         var recogniser = new window.SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
 
         recogniser.recognizeOnceAsync( result => {
-            console.log(result.text);
-            console.log(typeof (result.text));
             if (result.text !== undefined) {
                 this.speakTexts(`Your preference is ${result.text}. This will be applied to your obstacle avoidance service.`);
                 var c = result.text.toLowerCase();
@@ -69,14 +68,14 @@ export default class ObjectAddition extends Component {
     }
 
     speakTexts(text) {
-        var utterThis = new SpeechSynthesisUtterance(text); // text content
-        utterThis.onerror = function (event) {
+        this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
+        this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
         }
-        utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
-        utterThis.rate = 2;// rate
-        utterThis.pitch = 1.5;// pitch
-        this.state.synth.speak(utterThis);//speak
+        this.state.utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
+        this.state.utterThis.rate = 2;// rate
+        this.state.utterThis.pitch = 1.5;// pitch
+        this.state.synth.speak(this.state.utterThis);//speak
         //speechSynthesis.speak(utterThis);
     }
 
@@ -84,18 +83,17 @@ export default class ObjectAddition extends Component {
     setObjects() {
         var text = 'Hello, in this system, you can mark the objects you preferred by speaking... ' +
             'Now, please say the names of your preferred objects. after three d sound. d d d';
-        var utterThis = new SpeechSynthesisUtterance(text); // text content
-        utterThis.onerror = function (event) {
+        this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
+        this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
         }
-        utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
-        utterThis.rate = 2;// rate
-        utterThis.pitch = 1.5;// pitch
-        this.state.synth.speak(utterThis);//speak
+        this.state.utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
+        this.state.utterThis.rate = 2;// rate
+        this.state.utterThis.pitch = 1.5;// pitch
+        this.state.synth.speak(this.state.utterThis);//speak
         //speechSynthesis.speak(utterThis);
         var self = this;
-        utterThis.onend = function(event) {
-            console.log('voice ended');
+        this.state.utterThis.onend = function(event) {
             self.recogniseSpeech();
         }
     }

@@ -7,6 +7,7 @@ export default class VoiceConfig extends Component {
         super(props);
         this.state = {
             synth: null,
+            utterThis: null,
             voiceList: null,
             preClickTime: null,
             postClickTime: null
@@ -93,39 +94,37 @@ export default class VoiceConfig extends Component {
 
 
     speakTexts(text) {
-        var utterThis = new SpeechSynthesisUtterance(text); // text content
-        utterThis.onerror = function (event) {
+        this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
+        this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
         }
-        utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
-        utterThis.rate = 2;// rate
-        utterThis.pitch = 1.5;// pitch
-        this.state.synth.speak(utterThis);//speak
+        this.state.utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
+        this.state.utterThis.rate = 2;// rate
+        this.state.utterThis.pitch = 1.5;// pitch
+        this.state.synth.speak(this.state.utterThis);//speak
         //speechSynthesis.speak(utterThis);
     }
 
 
 
     setVoice() {
-
         var text = 'Hello, in this system, you can choose British English or American English... ' +
             'You can also set the speed and pitch of the voice. ' +
             'The recommended voice speed and pitch are both 1.5...But you can still set them by speaking… ' +
             'For example, if you choose British English and a lower speed and pitch, both of them are 1, ' +
             'please say your preference in this form... British English, speed 1, pitch 1..' +
             'Now, please say your preferred language, speed and pitch. after three d sound. d d d';
-        var utterThis = new SpeechSynthesisUtterance(text); // text content
-        utterThis.onerror = function (event) {
+        this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
+        this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
         }
-        utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
-        utterThis.rate = 2;// rate
-        utterThis.pitch = 1.5;// pitch
-        this.state.synth.speak(utterThis);//speak
+        this.state.utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
+        this.state.utterThis.rate = 2;// rate
+        this.state.utterThis.pitch = 1.5;// pitch
+        this.state.synth.speak(this.state.utterThis);//speak
         //speechSynthesis.speak(utterThis);
         var self = this;
-        utterThis.onend = function(event) {
-            console.log('voice ended');
+        this.state.utterThis.onend = function(event) {
             self.recogniseSpeech();
         }
     }
@@ -142,7 +141,6 @@ export default class VoiceConfig extends Component {
             var d = new Date();
             this.state.postClickTime = d.getTime();
             var duration = this.state.postClickTime - this.state.preClickTime;
-            console.log(duration);
             if (duration > 8500) {
                 var d = new Date();
                 this.state.preClickTime = d.getTime();

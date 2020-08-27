@@ -10,6 +10,7 @@ class Navigation extends Component {
         super(props);
         this.state = {
             synth: null,
+            utterThis: null,
             voiceList: null,
             isMute: false,
             langu: 2, // default language: British eng
@@ -40,14 +41,14 @@ class Navigation extends Component {
 
 
     speakTexts(text) {
-        var utterThis = new SpeechSynthesisUtterance(text); // text content
-        utterThis.onerror = function (event) {
+        this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
+        this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
         }
-        utterThis.voice = this.state.voiceList[this.state.langu]; // choose the language type(en-GB)
-        utterThis.rate = this.state.rate;// rate
-        utterThis.pitch = this.state.pitch;// pitch
-        this.state.synth.speak(utterThis);//speak
+        this.state.utterThis.voice = this.state.voiceList[this.state.langu]; // choose the language type(en-GB)
+        this.state.utterThis.rate = this.state.rate;// rate
+        this.state.utterThis.pitch = this.state.pitch;// pitch
+        this.state.synth.speak(this.state.utterThis);//speak
         //speechSynthesis.speak(utterThis);
     }
 
