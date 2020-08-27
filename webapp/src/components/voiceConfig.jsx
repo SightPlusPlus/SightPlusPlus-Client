@@ -142,8 +142,8 @@ export default class VoiceConfig extends Component {
             var d = new Date();
             this.state.postClickTime = d.getTime();
             var duration = this.state.postClickTime - this.state.preClickTime;
-
-            if (duration > 9000) {
+            console.log(duration);
+            if (duration > 8500) {
                 var d = new Date();
                 this.state.preClickTime = d.getTime();
                 this.state.postClickTime = null;

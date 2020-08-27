@@ -130,7 +130,7 @@ class Navigation extends Component {
             this.state.postClickTime = d.getTime();
             var duration = this.state.postClickTime - this.state.preClickTime;
 
-            if (duration > 9000) {
+            if (duration > 8500) {
                 var d = new Date();
                 this.state.preClickTime = d.getTime();
                 this.state.postClickTime = null;
