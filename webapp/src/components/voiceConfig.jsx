@@ -133,20 +133,20 @@ export default class VoiceConfig extends Component {
 
 
     handleClick () {
-        if (this.state.preClickTime == null) {
-            console.log("first click");
+        if (this.state.preClickTime == null && this.state.postClickTime == null) {
             var d = new Date();
             this.state.preClickTime = d.getTime();
-            this.speakTexts("This button can let you set the voice mode. If you want to use this function, please click it again immediately.");
-        }else{
-            console.log("second click");
+            this.speakTexts("This button can let you set the voice mode. " +
+                "If you want to use this function, please click it again immediately.");
+        }else {
             var d = new Date();
             this.state.postClickTime = d.getTime();
-            if(this.state.postClickTime - this.state.preClickTime > 9000) {
-                this.setState({
-                    preClickTime: null,
-                    postClickTime: null
-                });
+            var duration = this.state.postClickTime - this.state.preClickTime;
+
+            if (duration > 9000) {
+                var d = new Date();
+                this.state.preClickTime = d.getTime();
+                this.state.postClickTime = null;
             }else {
                 this.setVoice();
                 this.setState({

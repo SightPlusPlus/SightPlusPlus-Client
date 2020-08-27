@@ -82,7 +82,8 @@ export default class ObjectAddition extends Component {
 
 
     setObjects() {
-        var text = 'Hello, in this system, you can mark the objects you preferred by speaking... Now, please say the names of your preferred objects. after three d sound. d d d';
+        var text = 'Hello, in this system, you can mark the objects you preferred by speaking... ' +
+            'Now, please say the names of your preferred objects. after three d sound. d d d';
         var utterThis = new SpeechSynthesisUtterance(text); // text content
         utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
@@ -101,38 +102,28 @@ export default class ObjectAddition extends Component {
 
 
     handleClick () {
+        if (this.state.preClickTime == null && this.state.postClickTime == null) {
+            var d = new Date();
+            this.state.preClickTime = d.getTime();
+            this.speakTexts("This button can let you set the preferred objects which you would like to know first. " +
+                "If you want to use this function, please click it again immediately..");
+        }else {
+            var d = new Date();
+            this.state.postClickTime = d.getTime();
+            var duration = this.state.postClickTime - this.state.preClickTime;
 
-        this.setObjects();
-
-        // if (this.state.preClickTime == null && this.state.postClickTime == null) {
-        //     console.log("click 1");
-        //     var d = new Date();
-        //     this.state.preClickTime = d.getTime();
-        //     this.speakTexts("This button can let you set the preferred objects which you would like to know first. If you want to use this function, please click it again immediately..");
-        // }else {
-        //     var d = new Date();
-        //     this.state.postClickTime = d.getTime();
-        //     if (this.state.postClickTime !== null) {
-        //         console.log("click 2");
-        //
-        //         if(this.state.postClickTime - this.state.preClickTime > 15000) {
-        //             this.setState({
-        //                 preClickTime: null,
-        //                 postClickTime: null
-        //             });
-        //         }else {
-        //             this.setObjects();
-        //             this.setState({
-        //                 preClickTime: null,
-        //                 postClickTime: null
-        //             });
-        //         }
-        //     }else {
-        //         console.log("no click then");
-        //
-        //     }
-        //
-        // }
+            if (duration > 9000) {
+                var d = new Date();
+                this.state.preClickTime = d.getTime();
+                this.state.postClickTime = null;
+            }else {
+                this.setObjects();
+                this.setState({
+                    preClickTime: null,
+                    postClickTime: null
+                });
+            }
+        }
     }
 
 

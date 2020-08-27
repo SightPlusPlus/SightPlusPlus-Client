@@ -70,29 +70,6 @@ export default class MuteVoices extends Component {
             });
         }
 
-
-        // if (this.state.preClickTime == null) {
-        //     console.log("first click");
-        //     var d = new Date();
-        //     this.state.preClickTime = d.getTime();
-        //     this.speakTexts("This button can let you mute all the sounds. If you want to use this function, please click it again immediately..");
-        // }else{
-        //     console.log("second click");
-        //     var d = new Date();
-        //     this.state.postClickTime = d.getTime();
-        //     if(this.state.postClickTime - this.state.preClickTime > 15000) {
-        //         this.setState({
-        //             preClickTime: null,
-        //             postClickTime: null
-        //         });
-        //     }else {
-        //
-        //         this.setState({
-        //             preClickTime: null,
-        //             postClickTime: null
-        //         });
-        //     }
-        // }
     }
 
 
