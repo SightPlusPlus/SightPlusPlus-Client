@@ -7,6 +7,7 @@ export default class ObjectAddition extends Component {
         super(props);
         this.state = {
             synth: null,
+            voiceList: null,
             preClickTime: null,
             postClickTime: null
         };
@@ -134,8 +135,7 @@ export default class ObjectAddition extends Component {
         // }
     }
 
-
-
+    
 
     render() {
         return (
