@@ -63,7 +63,7 @@ class Navigation extends Component {
             }
         );
 
-        if (this.state.objects != null) {
+        if (this.state.objects !== null) {
             this.state.socket.addEventListener('open', function(event) {
                 self.state.socket.send(self.state.objects);
             });
@@ -72,7 +72,7 @@ class Navigation extends Component {
 
         this.state.socket.addEventListener('message', function(event) {
             console.log(event.data);
-            if (self.state.isMute == false) {
+            if (self.state.isMute === false) {
                 self.speakTexts(event.data);
             }
             // var obj = JSON.parse(event.data);
@@ -100,17 +100,18 @@ class Navigation extends Component {
 
     async componentWillReceiveProps(newProps) {
         console.log(newProps);
-        if (newProps.muteFlag == true) {
+        if (newProps.muteFlag === true) {
             console.log("mute");
             this.state.isMute = true;
             this.state.synth.cancel();
+            this.speakTexts("Sounds muted.");
         }else {
-            if (newProps.voiceProps.langu != null) {
+            if (newProps.voiceProps.langu !== null) {
                 this.state.langu = newProps.voiceProps.langu;
                 this.state.rate = newProps.voiceProps.speed;
                 this.state.pitch = newProps.voiceProps.pitch;
             }
-            if (newProps.objects != null) {
+            if (newProps.objects !== null) {
                 this.state.objects = newProps.objects;
             }
         }
@@ -119,7 +120,7 @@ class Navigation extends Component {
 
 
     handleClick () {
-        if (this.state.preClickTime == null) {
+        if (this.state.preClickTime === null) {
             console.log("first click");
             var d = new Date();
             this.state.preClickTime = d.getTime();

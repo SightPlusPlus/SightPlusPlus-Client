@@ -3,7 +3,6 @@ import './Page.css';
 import Navigation from "./components/navigation";
 import VoiceConfig from "./components/voiceConfig";
 import ObjectAddition from "./components/objectAddition";
-import {Button} from "react-bootstrap";
 import MuteVoices from "./components/muteVoices";
 
 
