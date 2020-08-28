@@ -17,8 +17,7 @@ class Navigation extends Component {
             rate: 2,
             pitch: 1.5,
             objects: null,
-            preClickTime: null,
-            postClickTime: null,
+            lastClickTime: null,
             runFun: false
         };
 
@@ -41,6 +40,13 @@ class Navigation extends Component {
 
 
     speakTexts(text) {
+
+
+        if(this.state.synth.paused === true) {
+            this.state.synth.resume();
+        }
+
+
         this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
         this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
@@ -121,26 +127,24 @@ class Navigation extends Component {
 
 
     handleClick () {
-        if (this.state.preClickTime == null && this.state.postClickTime == null) {
+        if(this.state.lastClickTime === null ) {
             var d = new Date();
-            this.state.preClickTime = d.getTime();
+            this.state.lastClickTime = d.getTime();
             this.speakTexts("This button can offer obstacle avoidance service. " +
                 "If you want to use this function, please click it again immediately.");
         }else {
             var d = new Date();
-            this.state.postClickTime = d.getTime();
-            var duration = this.state.postClickTime - this.state.preClickTime;
+            var duration = d.getTime() - this.state.lastClickTime;
 
             if (duration > 8500) {
-                var d = new Date();
-                this.state.preClickTime = d.getTime();
-                this.state.postClickTime = null;
+                this.speakTexts("This button can offer obstacle avoidance service. " +
+                    "If you want to use this function, please click it again immediately.");
+                d = new Date();
+                this.state.lastClickTime = d.getTime();
             }else {
                 this.startNavigation();
-                this.setState({
-                    preClickTime: null,
-                    postClickTime: null
-                });
+                d = new Date();
+                this.state.lastClickTime = d.getTime();
             }
         }
     }

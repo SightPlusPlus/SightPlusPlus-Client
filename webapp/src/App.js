@@ -14,7 +14,8 @@ export default class App extends React.Component{
     this.state = {
         voiceProps: [],
         objects: [],
-        muteFlag: false
+        muteFlag: false,
+        stopId: null,
     };
 
     this.setVoiceProps = this.setVoiceProps.bind(this);
@@ -44,11 +45,13 @@ export default class App extends React.Component{
   }
 
   stopAll= (compoId) => {
-
+      this.setState({
+          stopId: compoId
+      });
   }
 
 
-    render(){
+  render() {
     return (
         <div className="App">
             <header className="App-header">
@@ -57,9 +60,9 @@ export default class App extends React.Component{
                 <br/>
                 <Navigation voiceProps={this.state.voiceProps} objects={this.state.objects} muteFlag={this.state.muteFlag} />
                 <br/>
-                <VoiceConfig setVoiceProps={this.setVoiceProps} />
+                <VoiceConfig setVoiceProps={this.setVoiceProps} stopFlag={this.state.stopId} />
                 <br/>
-                <ObjectAddition setExtraObject={this.setExtraObject} />
+                <ObjectAddition setExtraObject={this.setExtraObject} stopAll={this.stopAll} />
             </header>
         </div>
     );

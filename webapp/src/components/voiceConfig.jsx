@@ -9,8 +9,7 @@ export default class VoiceConfig extends Component {
             synth: null,
             utterThis: null,
             voiceList: null,
-            preClickTime: null,
-            postClickTime: null
+            lastClickTime: null
         };
 
         //binding
@@ -29,6 +28,16 @@ export default class VoiceConfig extends Component {
         }
 
     }
+
+
+    async componentWillReceiveProps(newProps) {
+        console.log(newProps);
+        // if (newProps.stopId !== 'voiceConfig' && this.state.synth.speaking === true) {
+        //     this.state.synth.cancel();
+        // }
+    }
+
+
 
     obtainVoices() {
         this.state.synth = window.speechSynthesis;
@@ -132,25 +141,24 @@ export default class VoiceConfig extends Component {
 
 
     handleClick () {
-        if (this.state.preClickTime == null && this.state.postClickTime == null) {
+        if(this.state.lastClickTime === null ) {
             var d = new Date();
-            this.state.preClickTime = d.getTime();
+            this.state.lastClickTime = d.getTime();
             this.speakTexts("This button can let you set the voice mode. " +
                 "If you want to use this function, please click it again immediately.");
         }else {
             var d = new Date();
-            this.state.postClickTime = d.getTime();
-            var duration = this.state.postClickTime - this.state.preClickTime;
+            var duration = d.getTime() - this.state.lastClickTime;
+
             if (duration > 8500) {
-                var d = new Date();
-                this.state.preClickTime = d.getTime();
-                this.state.postClickTime = null;
+                this.speakTexts("This button can let you set the voice mode. " +
+                    "If you want to use this function, please click it again immediately.");
+                d = new Date();
+                this.state.lastClickTime = d.getTime();
             }else {
                 this.setVoice();
-                this.setState({
-                    preClickTime: null,
-                    postClickTime: null
-                });
+                d = new Date();
+                this.state.lastClickTime = d.getTime();
             }
         }
     }
