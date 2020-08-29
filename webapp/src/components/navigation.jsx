@@ -45,17 +45,19 @@ class Navigation extends Component {
             console.error('SpeechSynthesisUtterance.onerror');
         }
         this.state.utterThis.voice = this.state.voiceList[this.state.langu]; // choose the language type(en-GB)
+        console.log("**************************************************");
+        console.log("&&&& this.state.rate = " + this.state.rate);
         this.state.utterThis.rate = this.state.rate;// rate
         this.state.utterThis.pitch = this.state.pitch;// pitch
+        console.log("this.state.utterThis.rate = " + this.state.utterThis.rate);
+        console.log("this.state.rate = " + this.state.rate);
+        console.log("**************************************************");
         this.state.synth.speak(this.state.utterThis);//speak
         //speechSynthesis.speak(utterThis);
     }
 
 
     startNavigation() {
-        console.log(this.state.socket);
-        console.log(this.state.synth);
-
         var self = this;
         this.state.socket = new WebSocket('ws://localhost:7979');
         this.state.isMute = false;
@@ -73,7 +75,6 @@ class Navigation extends Component {
             });
         }
 
-        console.log(this.state.socket);
 
         this.state.socket.addEventListener('message', function(event) {
             console.log(event.data);
@@ -105,20 +106,29 @@ class Navigation extends Component {
 
     componentWillReceiveProps(newProps) {
         console.log(newProps);
-        if (newProps.muteFlag === true) {
-            console.log("mute");
-            this.state.isMute = true;
-            this.state.synth.cancel();
-            this.speakTexts("Sounds muted.");
-        }else {
-            if (newProps.voiceProps.langu !== null) {
-                this.state.langu = newProps.voiceProps.langu;
-                this.state.rate = newProps.voiceProps.speed;
-                this.state.pitch = newProps.voiceProps.pitch;
+        if (newProps.muteFlag === true) { // mute
+            if (this.state.synth !== null && this.state.synth.speaking === true) {
+                this.state.synth.cancel();
+                this.state.isMute = true;
+                console.log("mute");
+                this.speakTexts("Sounds muted. If you want to resume the sounds, please click this button again");
             }
-            if (newProps.objects !== null) {
-                this.state.objects = newProps.objects;
+        }else {  // resume
+            if (newProps.muteFlag === false) {
+                this.state.isMute = false;
+                console.log("resume");
+                this.speakTexts("Sounds resumed. ");
             }
+        }
+
+        if (Array.prototype.isPrototypeOf(newProps.voiceProps) && newProps.voiceProps.length !== 0) {
+            this.state.langu = newProps.voiceProps.langu;
+            this.state.rate = newProps.voiceProps.speed;
+            this.state.pitch = newProps.voiceProps.pitch;
+        }
+
+        if (Array.prototype.isPrototypeOf(newProps.objects) && newProps.voiceProps.objects !== 0) {
+            this.state.objects = newProps.objects;
         }
     }
 
@@ -149,13 +159,11 @@ class Navigation extends Component {
 
 
     stopNavigate () {
-        console.log(this.state.socket);
-        console.log(this.state.synth);
         if (this.state.synth !== null && this.state.synth.speaking === true) {
             this.state.synth.cancel();
         }
 
-        if (this.state.socket == null) {
+        if (this.state.socket === null) {
             this.speakTexts('You have not open the obstacle avoidance service.');
         }else {
             if (this.state.socket.readyState !== 1) {
@@ -163,8 +171,6 @@ class Navigation extends Component {
             }else {
                 this.state.socket.close();
                 this.speakTexts('Obstacle avoidance stopped.');
-                console.log(this.state.socket);
-                console.log(this.state.synth);
             }
         }
     }

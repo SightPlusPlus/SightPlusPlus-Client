@@ -26,14 +26,14 @@ export default class App extends React.Component{
 
   setVoiceProps = (voiceProps) => {
       this.setState({
-          muteFlag: false,
+          muteFlag: 0,
           voiceProps: voiceProps
       });
   }
 
   setExtraObject = (objects) => {
       this.setState({
-          muteFlag: false,
+          muteFlag: 0,
           objects: objects
       });
   }

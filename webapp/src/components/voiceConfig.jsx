@@ -31,7 +31,7 @@ export default class VoiceConfig extends Component {
 
 
     async componentWillReceiveProps(newProps) {
-        console.log(newProps);
+        //console.log(newProps);
         // if (newProps.stopId !== 'voiceConfig' && this.state.synth.speaking === true) {
         //     this.state.synth.cancel();
         // }
