@@ -47,19 +47,15 @@ export default class MuteVoices extends Component {
         console.log("**************************************************");
         console.log(window.speechSynthesis);
         console.log("**************************************************");
-        if (this.state.muteFlag === false) {
+
+        if (window.speechSynthesis.speaking === true) {
             var muteFlag = true;
             this.props.muteVoice(muteFlag);
-            this.setState({
-                muteFlag: true
-            });
         }else {
             var muteFlag = false;
             this.props.muteVoice(muteFlag);
-            this.setState({
-                muteFlag: false
-            });
         }
+
 
     }
 
