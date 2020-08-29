@@ -40,13 +40,6 @@ class Navigation extends Component {
 
 
     speakTexts(text) {
-
-
-        if(this.state.synth.paused === true) {
-            this.state.synth.resume();
-        }
-
-
         this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
         this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
@@ -60,8 +53,12 @@ class Navigation extends Component {
 
 
     startNavigation() {
+        console.log(this.state.socket);
+        console.log(this.state.synth);
+
         var self = this;
         this.state.socket = new WebSocket('ws://localhost:7979');
+        this.state.isMute = false;
         const bell = new UIfx(
             beepsound,
             {
@@ -76,6 +73,7 @@ class Navigation extends Component {
             });
         }
 
+        console.log(this.state.socket);
 
         this.state.socket.addEventListener('message', function(event) {
             console.log(event.data);
@@ -105,7 +103,7 @@ class Navigation extends Component {
 
 
 
-    async componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps) {
         console.log(newProps);
         if (newProps.muteFlag === true) {
             console.log("mute");
@@ -151,9 +149,24 @@ class Navigation extends Component {
 
 
     stopNavigate () {
-        this.state.synth.cancel();
-        this.state.socket.close();
-        this.speakTexts('Obstacle avoidance stopped.');
+        console.log(this.state.socket);
+        console.log(this.state.synth);
+        if (this.state.synth !== null && this.state.synth.speaking === true) {
+            this.state.synth.cancel();
+        }
+
+        if (this.state.socket == null) {
+            this.speakTexts('You have not open the obstacle avoidance service.');
+        }else {
+            if (this.state.socket.readyState !== 1) {
+                this.speakTexts('You have not open the obstacle avoidance service.');
+            }else {
+                this.state.socket.close();
+                this.speakTexts('Obstacle avoidance stopped.');
+                console.log(this.state.socket);
+                console.log(this.state.synth);
+            }
+        }
     }
 
 

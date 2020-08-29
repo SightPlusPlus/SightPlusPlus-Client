@@ -44,6 +44,8 @@ export default class VoiceConfig extends Component {
         this.state.voiceList = this.state.synth.getVoices();
     }
 
+
+
     recogniseSpeech(){
         var speechConfig = window.SpeechSDK.SpeechConfig.fromSubscription('089ccb86c773418db9cf38d11833f5a0', 'westus');
         speechConfig.speechRecognitionLanguage = "en-US";

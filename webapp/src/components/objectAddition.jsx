@@ -31,6 +31,7 @@ export default class ObjectAddition extends Component {
 
     obtainVoices() {
         this.state.synth = window.speechSynthesis;
+        //console.log(window.speechSynthesis);
         this.state.voiceList = this.state.synth.getVoices();
     }
 
