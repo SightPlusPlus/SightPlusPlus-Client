@@ -45,13 +45,8 @@ class Navigation extends Component {
             console.error('SpeechSynthesisUtterance.onerror');
         }
         this.state.utterThis.voice = this.state.voiceList[this.state.langu]; // choose the language type(en-GB)
-        console.log("**************************************************");
-        console.log("&&&& this.state.rate = " + this.state.rate);
         this.state.utterThis.rate = this.state.rate;// rate
         this.state.utterThis.pitch = this.state.pitch;// pitch
-        console.log("this.state.utterThis.rate = " + this.state.utterThis.rate);
-        console.log("this.state.rate = " + this.state.rate);
-        console.log("**************************************************");
         this.state.synth.speak(this.state.utterThis);//speak
         //speechSynthesis.speak(utterThis);
     }

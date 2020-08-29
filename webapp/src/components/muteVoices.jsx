@@ -11,8 +11,8 @@ export default class MuteVoices extends Component {
         };
 
         //binding
-        this.obtainVoices = this.obtainVoices.bind(this);
-        this.speakTexts = this.speakTexts.bind(this);
+        //this.obtainVoices = this.obtainVoices.bind(this);
+        //this.speakTexts = this.speakTexts.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
 
@@ -44,9 +44,9 @@ export default class MuteVoices extends Component {
 
 
     handleClick () {
-
+        console.log("**************************************************");
         console.log(window.speechSynthesis);
-
+        console.log("**************************************************");
         if (this.state.muteFlag === false) {
             var muteFlag = true;
             this.props.muteVoice(muteFlag);
