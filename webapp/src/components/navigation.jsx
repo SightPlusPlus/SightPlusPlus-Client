@@ -76,12 +76,19 @@ class Navigation extends Component {
             if (self.state.isMute === false) {
                 self.speakTexts(event.data);
             }
+
+
+
             // var obj = JSON.parse(event.data);
             // if (obj.priority == 4) { // if receive a emergency signal
             //     bell.play();
             // }else {
-            //     self.speakTexts(obj.msg);
+            //     if (self.state.isMute === false) {
+            //         self.speakTexts(obj.msg);
+            //     }
             // }
+
+
         })
 
     }
@@ -105,13 +112,11 @@ class Navigation extends Component {
             if (this.state.synth !== null && this.state.synth.speaking === true) {
                 this.state.synth.cancel();
                 this.state.isMute = true;
-                console.log("mute");
                 this.speakTexts("Sounds muted. If you want to resume the sounds, please click this button again");
             }
         }else {  // resume
             if (newProps.muteFlag === false) {
                 this.state.isMute = false;
-                console.log("resume");
                 this.speakTexts("Sounds resumed. ");
             }
         }
