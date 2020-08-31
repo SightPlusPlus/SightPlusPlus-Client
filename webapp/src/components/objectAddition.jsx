@@ -103,6 +103,10 @@ export default class ObjectAddition extends Component {
         if(this.state.lastClickTime === null ) {
             var d = new Date();
             this.state.lastClickTime = d.getTime();
+            this.props.changeButton();
+            if (window.speechSynthesis.speaking === true) {
+                window.speechSynthesis.cancel();
+            }
             this.speakTexts("This button can let you set the preferred objects which you would like to know first. " +
                 "If you want to use this function, please click it again immediately..");
         }else {

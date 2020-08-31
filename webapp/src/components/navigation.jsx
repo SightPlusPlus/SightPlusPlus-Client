@@ -72,21 +72,21 @@ class Navigation extends Component {
 
 
         this.state.socket.addEventListener('message', function(event) {
-            console.log(event.data);
-            if (self.state.isMute === false) {
-                self.speakTexts(event.data);
-            }
-
-
-
-            // var obj = JSON.parse(event.data);
-            // if (obj.priority == 4) { // if receive a emergency signal
-            //     bell.play();
-            // }else {
-            //     if (self.state.isMute === false) {
-            //         self.speakTexts(obj.msg);
-            //     }
+            // console.log(event.data);
+            // if (self.state.isMute === false) {
+            //     self.speakTexts(event.data);
             // }
+
+
+            var obj = JSON.parse(event.data);
+            if (obj.priority == 4) { // if receive a emergency signal
+                bell.play();
+            }else {
+                if (self.state.isMute === false) {
+                    self.speakTexts(obj.name);
+                    console.log(obj.name);
+                }
+            }
 
 
         })
@@ -108,6 +108,16 @@ class Navigation extends Component {
 
     componentWillReceiveProps(newProps) {
         console.log(newProps);
+
+        if (newProps.cButton === true) {
+            if (this.state.socket !== null) {
+                if (this.state.socket.readyState === 1) {
+                    this.speakTexts('Obstacle avoidance stopped.');
+                    this.state.socket.close();
+                }
+            }
+        }
+
         if (newProps.muteFlag === true) { // mute
             if (this.state.synth !== null && this.state.synth.speaking === true) {
                 this.state.synth.cancel();
@@ -138,6 +148,9 @@ class Navigation extends Component {
         if(this.state.lastClickTime === null ) {
             var d = new Date();
             this.state.lastClickTime = d.getTime();
+            if (window.speechSynthesis.speaking === true) {
+                window.speechSynthesis.cancel();
+            }
             this.speakTexts("This button can offer obstacle avoidance service. " +
                 "If you want to use this function, please click it again immediately.");
         }else {

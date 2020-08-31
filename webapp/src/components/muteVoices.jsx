@@ -44,7 +44,7 @@ export default class MuteVoices extends Component {
 
 
     handleClick () {
-         if (window.speechSynthesis.speaking === true) {
+        if (window.speechSynthesis.speaking === true) {
             var muteFlag = true;
             this.props.muteVoice(muteFlag);
         }else {

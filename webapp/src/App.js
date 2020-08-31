@@ -15,40 +15,46 @@ export default class App extends React.Component{
         voiceProps: [],
         objects: [],
         muteFlag: false,
-        stopId: null,
+        cButton: false
     };
 
     this.setVoiceProps = this.setVoiceProps.bind(this);
     this.setExtraObject = this.setExtraObject.bind(this);
     this.muteVoice = this.muteVoice.bind(this);
-    this.stopAll = this.stopAll.bind(this);
+    this.changeButton = this.changeButton.bind(this);
   }
 
   setVoiceProps = (voiceProps) => {
       this.setState({
           muteFlag: 0,
-          voiceProps: voiceProps
+          voiceProps: voiceProps,
+          cButton: false
       });
   }
 
   setExtraObject = (objects) => {
       this.setState({
           muteFlag: 0,
-          objects: objects
+          objects: objects,
+          cButton: false
       });
   }
 
   muteVoice = (muteFlag) => {
       this.setState({
-          muteFlag: muteFlag
+          muteFlag: muteFlag,
+          cButton: false
       });
   }
 
-  stopAll= (compoId) => {
+  changeButton = () => {
       this.setState({
-          stopId: compoId
+          muteFlag: 0,
+          cButton: true
       });
   }
+
+
 
 
   render() {
@@ -58,11 +64,11 @@ export default class App extends React.Component{
                 <h1>Sight ++</h1>
                 <MuteVoices muteVoice={this.muteVoice} />
                 <br/>
-                <Navigation voiceProps={this.state.voiceProps} objects={this.state.objects} muteFlag={this.state.muteFlag} />
+                <Navigation voiceProps={this.state.voiceProps} objects={this.state.objects} muteFlag={this.state.muteFlag} cButton={this.state.cButton}/>
                 <br/>
-                <VoiceConfig setVoiceProps={this.setVoiceProps} stopFlag={this.state.stopId} />
+                <VoiceConfig setVoiceProps={this.setVoiceProps} changeButton={this.changeButton}/>
                 <br/>
-                <ObjectAddition setExtraObject={this.setExtraObject} stopAll={this.stopAll} />
+                <ObjectAddition setExtraObject={this.setExtraObject} changeButton={this.changeButton}/>
             </header>
         </div>
     );
