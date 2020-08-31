@@ -133,6 +133,9 @@ export default class ObjectAddition extends Component {
                 d = new Date();
                 this.state.lastClickTime = d.getTime();
             }else {
+                if (window.speechSynthesis.speaking === true) {
+                    window.speechSynthesis.cancel();
+                }
                 this.setObjects();
                 d = new Date();
                 this.state.lastClickTime = d.getTime();

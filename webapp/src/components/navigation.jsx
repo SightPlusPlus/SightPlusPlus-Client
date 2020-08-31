@@ -29,8 +29,6 @@ class Navigation extends Component {
         this.stopNavigate = this.stopNavigate.bind(this);
     }
 
-    //socket = new WebSocket('ws://localhost:7979');
-
 
 
     obtainVoices() {
@@ -71,25 +69,16 @@ class Navigation extends Component {
 
 
         this.state.socket.addEventListener('message', function(event) {
-            // console.log(event.data);
-            // if (self.state.isMute === false) {
-            //     self.speakTexts(event.data);
-            // }
-
-
             var obj = JSON.parse(event.data);
             if (obj.priority == 4) { // if receive a emergency signal
                 bell.play();
             }else {
                 if (self.state.isMute === false) {
-                    self.speakTexts(obj.name);
-                    console.log(obj.name);
+                    self.speakTexts(obj.msg);
+                    console.log(obj.msg);
                 }
             }
-
-
-        })
-
+       })
     }
 
 
@@ -165,6 +154,9 @@ class Navigation extends Component {
                 d = new Date();
                 this.state.lastClickTime = d.getTime();
             }else {  // click 2
+                if (window.speechSynthesis.speaking === true) {
+                    window.speechSynthesis.cancel();
+                }
                 this.startNavigation();
                 d = new Date();
                 this.state.lastClickTime = d.getTime();

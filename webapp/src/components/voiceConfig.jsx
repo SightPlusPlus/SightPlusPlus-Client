@@ -237,6 +237,9 @@ export default class VoiceConfig extends Component {
                 d = new Date();
                 this.state.lastClickTime = d.getTime();
             }else {
+                if (window.speechSynthesis.speaking === true) {
+                    window.speechSynthesis.cancel();
+                }
                 this.setVoice();
                 d = new Date();
                 this.state.lastClickTime = d.getTime();
