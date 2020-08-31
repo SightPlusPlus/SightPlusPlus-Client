@@ -43,7 +43,6 @@ export default class ObjectAddition extends Component {
 
         recogniser.recognizeOnceAsync( result => {
             if (result.text !== undefined) {
-                this.speakTexts(`Your preference is ${result.text}. This will be applied to your obstacle avoidance service.`);
                 var c = result.text.toLowerCase();
                 c = c.replace(/[^a-z]/gi, ' ');
                 var o = c.split(' ');
@@ -54,7 +53,7 @@ export default class ObjectAddition extends Component {
                     }
                 })
                 if (objects !== []) {
-                    console.log(objects);
+                    this.speakTexts(`Your preference is ${result.text}. This will be applied to your obstacle avoidance service.`);
                     this.props.setExtraObject(objects);
                 }else {
                     this.speakTexts('you gave us an invalid answer. please try this button again in a quieter environment');
