@@ -32,10 +32,12 @@ export default class VoiceConfig extends Component {
 
 
     async componentWillReceiveProps(newProps) {
-        //console.log(newProps);
-        // if (newProps.stopId !== 'voiceConfig' && this.state.synth.speaking === true) {
-        //     this.state.synth.cancel();
-        // }
+        //mute
+        if (newProps.muteFlag === true) { // mute
+            if (window.speechSynthesis.speaking === true) {
+                window.speechSynthesis.cancel();
+            }
+        }
     }
 
 
@@ -183,7 +185,6 @@ export default class VoiceConfig extends Component {
         this.state.utterThis.rate = 2;// rate
         this.state.utterThis.pitch = 1.5;// pitch
         this.state.synth.speak(this.state.utterThis);//speak
-        //speechSynthesis.speak(utterThis);
     }
 
 
@@ -216,6 +217,7 @@ export default class VoiceConfig extends Component {
         if(this.state.lastClickTime === null ) {
             var d = new Date();
             this.state.lastClickTime = d.getTime();
+            this.props.changeButton();
             if (window.speechSynthesis.speaking === true) {
                 window.speechSynthesis.cancel();
             }
@@ -226,6 +228,10 @@ export default class VoiceConfig extends Component {
             var duration = d.getTime() - this.state.lastClickTime;
 
             if (duration > 8500) {
+                this.props.changeButton();
+                if (window.speechSynthesis.speaking === true) {
+                    window.speechSynthesis.cancel();
+                }
                 this.speakTexts("This button can let you set the voice mode. " +
                     "If you want to use this function, please click it again immediately.");
                 d = new Date();

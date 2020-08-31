@@ -29,11 +29,22 @@ export default class ObjectAddition extends Component {
 
     }
 
+
+    async componentWillReceiveProps(newProps) {
+        //mute
+        if (newProps.muteFlag === true) { // mute
+            if (window.speechSynthesis.speaking === true) {
+                window.speechSynthesis.cancel();
+            }
+        }
+    }
+
+
     obtainVoices() {
         this.state.synth = window.speechSynthesis;
-        //console.log(window.speechSynthesis);
         this.state.voiceList = this.state.synth.getVoices();
     }
+
 
     recogniseSpeech(){
         var speechConfig = window.SpeechSDK.SpeechConfig.fromSubscription('089ccb86c773418db9cf38d11833f5a0', 'westus');
@@ -66,6 +77,7 @@ export default class ObjectAddition extends Component {
         });
     }
 
+
     speakTexts(text) {
         this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
         this.state.utterThis.onerror = function (event) {
@@ -75,7 +87,6 @@ export default class ObjectAddition extends Component {
         this.state.utterThis.rate = 2;// rate
         this.state.utterThis.pitch = 1.5;// pitch
         this.state.synth.speak(this.state.utterThis);//speak
-        //speechSynthesis.speak(utterThis);
     }
 
 
@@ -113,6 +124,10 @@ export default class ObjectAddition extends Component {
             var duration = d.getTime() - this.state.lastClickTime;
 
             if (duration > 9000) {
+                this.props.changeButton();
+                if (window.speechSynthesis.speaking === true) {
+                    window.speechSynthesis.cancel();
+                }
                 this.speakTexts("This button can let you set the preferred objects which you would like to know first. " +
                     "If you want to use this function, please click it again immediately..");
                 d = new Date();

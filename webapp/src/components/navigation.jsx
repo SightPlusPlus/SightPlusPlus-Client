@@ -48,7 +48,6 @@ class Navigation extends Component {
         this.state.utterThis.rate = this.state.rate;// rate
         this.state.utterThis.pitch = this.state.pitch;// pitch
         this.state.synth.speak(this.state.utterThis);//speak
-        //speechSynthesis.speak(utterThis);
     }
 
 
@@ -107,10 +106,9 @@ class Navigation extends Component {
 
 
     componentWillReceiveProps(newProps) {
-        console.log(newProps);
-
+        //changeButton
         if (newProps.cButton === true) {
-            if (this.state.socket !== null) {
+            if (this.state.socket !== null && this.state.socket !== undefined) {
                 if (this.state.socket.readyState === 1) {
                     this.speakTexts('Obstacle avoidance stopped.');
                     this.state.socket.close();
@@ -118,25 +116,26 @@ class Navigation extends Component {
             }
         }
 
+        //mute
         if (newProps.muteFlag === true) { // mute
             if (this.state.synth !== null && this.state.synth.speaking === true) {
                 this.state.synth.cancel();
                 this.state.isMute = true;
-                this.speakTexts("Sounds muted. If you want to resume the sounds, please click this button again");
             }
         }else {  // resume
             if (newProps.muteFlag === false) {
                 this.state.isMute = false;
-                this.speakTexts("Sounds resumed. ");
             }
         }
 
+        //set voice mode
         if (Array.prototype.isPrototypeOf(newProps.voiceProps) && newProps.voiceProps.length !== 0) {
             this.state.langu = newProps.voiceProps.langu;
             this.state.rate = newProps.voiceProps.speed;
             this.state.pitch = newProps.voiceProps.pitch;
         }
 
+        //mark preferred objects
         if (Array.prototype.isPrototypeOf(newProps.objects) && newProps.voiceProps.objects !== 0) {
             this.state.objects = newProps.objects;
         }
@@ -145,7 +144,7 @@ class Navigation extends Component {
 
 
     handleClick () {
-        if(this.state.lastClickTime === null ) {
+        if(this.state.lastClickTime === null ) { // click 1
             var d = new Date();
             this.state.lastClickTime = d.getTime();
             if (window.speechSynthesis.speaking === true) {
@@ -157,12 +156,15 @@ class Navigation extends Component {
             var d = new Date();
             var duration = d.getTime() - this.state.lastClickTime;
 
-            if (duration > 8500) {
+            if (duration > 8500) { // click 1
+                if (window.speechSynthesis.speaking === true) {
+                    window.speechSynthesis.cancel();
+                }
                 this.speakTexts("This button can offer obstacle avoidance service. " +
                     "If you want to use this function, please click it again immediately.");
                 d = new Date();
                 this.state.lastClickTime = d.getTime();
-            }else {
+            }else {  // click 2
                 this.startNavigation();
                 d = new Date();
                 this.state.lastClickTime = d.getTime();
@@ -197,7 +199,6 @@ class Navigation extends Component {
                 <Button variant="warning" size="lg" block onClick={this.handleClick}>
                     Start
                 </Button>
-                <br/>
                 <Button variant="danger" size="lg" block onClick={this.stopNavigate}>
                     Stop
                 </Button>
@@ -207,13 +208,3 @@ class Navigation extends Component {
 }
 
 export default Navigation;
-
-
-// var ifObtained = setInterval(()=> {
-//     console.log(voices);
-//     console.log(Object.keys(voices).length);
-//
-//     if (Object.keys(voices).length != 0) {
-//         clearInterval(ifObtained);
-//     }
-// }, 2000);
