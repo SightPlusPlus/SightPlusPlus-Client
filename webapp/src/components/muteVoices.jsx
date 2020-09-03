@@ -52,7 +52,7 @@ export default class MuteVoices extends Component {
                 if (speechSynthesis.onvoiceschanged !== undefined) {
                     speechSynthesis.onvoiceschanged = self.obtainVoices;
                 }
-                var utterThis = new SpeechSynthesisUtterance("Sounds muted. If you want to resume the sound, please click this button again."); // text content
+                var utterThis = new SpeechSynthesisUtterance("Sounds are muted. If you want to resume the sound, please click this button again."); // text content
                 utterThis.onerror = function (event) {
                     console.error('SpeechSynthesisUtterance.onerror');
                 }
@@ -64,7 +64,7 @@ export default class MuteVoices extends Component {
         }else {
             var muteFlag = false;
             this.props.muteVoice(muteFlag);
-            this.speakTexts("Sounds resumed. ");
+            this.speakTexts("Sounds are resumed. ");
         }
 
 
