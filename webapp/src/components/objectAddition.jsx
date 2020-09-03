@@ -6,7 +6,6 @@ export default class ObjectAddition extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            synth: null,
             utterThis: null,
             voiceList: null,
             lastClickTime: null
@@ -41,15 +40,7 @@ export default class ObjectAddition extends Component {
 
 
     obtainVoices() {
-        // this.setState({
-        //     synth:  window.speechSynthesis
-        // });
-        //
-        // this.setState((preState) => ({
-        //     voiceList: preState.synth.getVoices()
-        // }));
-        this.state.synth = window.speechSynthesis;
-        this.state.voiceList = this.state.synth.getVoices();
+        this.state.voiceList = window.speechSynthesis.getVoices();
     }
 
 
@@ -77,7 +68,7 @@ export default class ObjectAddition extends Component {
                     this.speakTexts('you gave us an invalid answer. please try this button again in a quieter environment');
                 }
             }else {
-                this.speakTexts('we don\'t receive your answer.please try this button again');
+                this.speakTexts('we don\'t receive your answer. please try this button again');
             }
         },err => {
             console.log(err);
@@ -86,6 +77,7 @@ export default class ObjectAddition extends Component {
 
 
     speakTexts(text) {
+        console.log(this.state.voiceList);
         this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
         this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
@@ -93,11 +85,12 @@ export default class ObjectAddition extends Component {
         this.state.utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
         this.state.utterThis.rate = 2;// rate
         this.state.utterThis.pitch = 1.5;// pitch
-        this.state.synth.speak(this.state.utterThis);//speak
+        window.speechSynthesis.speak(this.state.utterThis);//speak
     }
 
 
     setObjects() {
+        console.log(this.state.voiceList);
         var text = 'Hello, in this system, you can mark the objects you preferred by speaking... ' +
             'Now, please say the names of your preferred objects. after three d sound. d d d';
         this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
@@ -107,7 +100,7 @@ export default class ObjectAddition extends Component {
         this.state.utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
         this.state.utterThis.rate = 2;// rate
         this.state.utterThis.pitch = 1.5;// pitch
-        this.state.synth.speak(this.state.utterThis);//speak
+        window.speechSynthesis.speak(this.state.utterThis);//speak
         //speechSynthesis.speak(utterThis);
         var self = this;
         this.state.utterThis.onend = function(event) {
