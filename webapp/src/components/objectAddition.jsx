@@ -77,7 +77,6 @@ export default class ObjectAddition extends Component {
 
 
     speakTexts(text) {
-        console.log(this.state.voiceList);
         this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
         this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
@@ -90,7 +89,6 @@ export default class ObjectAddition extends Component {
 
 
     setObjects() {
-        console.log(this.state.voiceList);
         var text = 'Hello, in this system, you can mark the objects you preferred by speaking... ' +
             'Now, please say the names of your preferred objects. after three d sound. d d d';
         this.state.utterThis = new SpeechSynthesisUtterance(text); // text content

@@ -1,7 +1,11 @@
 # SightPP_VoiceInterface
 
 ## Introduction
+This web application is designed for the visually-impaired and the blind people to avoid obstacles.
+All the instructions are told by speech. Users can tell their preference by speaking through microphone.
+This web application is based on the Intel_IXN_SightPP Server.
 
+Notice: you should wear headphones when you use this system. With a microphone would be better.
 
 ## Prerequisites
 + Install the Intel_IXN_SightPP Server
@@ -41,7 +45,13 @@ yarn start
 ```
 
 ## User Manual
-There are five buttons in the page. Their functions are below:
+There are five buttons in the page. 
+
+<img src="https://raw.githubusercontent.com/SightPP/SightPP_VoiceInterface/webapp/webapp/readme_images/interface.PNG" width="350" alt="interface" /> 
+
+
+
+Their functions are below:
 
 #### "Start" Button
 
@@ -51,6 +61,8 @@ There are five buttons in the page. Their functions are below:
 If you want to use this function, please click it again immediately.".
 + If users want to use the service, they can click it immediately to start the service formally.
 In this way, users can listen to the instructions received to learn the environment. 
+These instructions are neat and simple, for example, "Above, in left, bird, 2 meters".
++ If an obstacle is too near to avoid, the application will sound a beep sound to remind the user.
 
 #### "Stop" Button
 + Users can click "Stop" to stop the running obstacle avoidance service.
