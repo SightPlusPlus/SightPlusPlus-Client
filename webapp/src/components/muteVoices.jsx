@@ -43,8 +43,9 @@ export default class MuteVoices extends Component {
 
 
     handleClick () {
-        if (window.speechSynthesis.speaking === true) {
+        if(this.state.muteFlag === false) {
             var muteFlag = true;
+            this.state.muteFlag = true;
             this.props.muteVoice(muteFlag);
             var self = this;
             setTimeout(function() {
@@ -63,10 +64,10 @@ export default class MuteVoices extends Component {
             }, 500);
         }else {
             var muteFlag = false;
+            this.state.muteFlag = false;
             this.props.muteVoice(muteFlag);
             this.speakTexts("Sounds are resumed. ");
         }
-
 
     }
 
