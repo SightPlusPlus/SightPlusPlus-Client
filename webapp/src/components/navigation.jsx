@@ -45,6 +45,7 @@ class Navigation extends Component {
         this.state.utterThis.voice = this.state.voiceList[this.state.langu]; // choose the language type(en-GB)
         this.state.utterThis.rate = this.state.rate;// rate
         this.state.utterThis.pitch = this.state.pitch;// pitch
+        console.log(this.state.pitch);
         this.state.synth.speak(this.state.utterThis);//speak
     }
 

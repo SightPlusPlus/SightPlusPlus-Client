@@ -159,7 +159,15 @@ export default class VoiceConfig extends Component {
             console.log(result.text);
             if (result.text !== undefined) {
                 var str = result.text.split(' ');
-                console.log(str);
+                var s1 = str[5].split('');
+                var s2 = [];
+                if(s1[s1.length-1] === '.') {
+                    s1.pop();
+                    str.pop();
+                    s2 = s1.join('');
+                    str.push(s2);
+                }
+
                 var checkResult = this.checkValidation(str);
                 if ( checkResult === false) {
                     this.speakTexts('you gave us an invalid answer. Please try this button again in a quieter environment');
@@ -204,7 +212,6 @@ export default class VoiceConfig extends Component {
         this.state.utterThis.rate = 2;// rate
         this.state.utterThis.pitch = 1.5;// pitch
         this.state.synth.speak(this.state.utterThis);//speak
-        //speechSynthesis.speak(utterThis);
         var self = this;
         this.state.utterThis.onend = function(event) {
             self.recogniseSpeech();
