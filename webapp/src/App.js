@@ -55,23 +55,39 @@ export default class App extends React.Component{
   }
 
 
+    render() {
+        return (
+            <div className="App">
+                <header className="App-header">
+                    <h1>Sight ++</h1>
+                    <ObjectAddition setExtraObject={this.setExtraObject} changeButton={this.changeButton} muteFlag={this.state.muteFlag}/>
+                </header>
+            </div>
+        );
+    }
 
 
-  render() {
-    return (
-        <div className="App">
-            <header className="App-header">
-                <h1>Sight ++</h1>
-                <Navigation voiceProps={this.state.voiceProps} objects={this.state.objects} muteFlag={this.state.muteFlag} cButton={this.state.cButton}/>
-                <br/>
-                <MuteVoices muteVoice={this.muteVoice} />
-                <br/>
-                <VoiceConfig setVoiceProps={this.setVoiceProps} changeButton={this.changeButton} muteFlag={this.state.muteFlag}/>
-                <br/>
-                <ObjectAddition setExtraObject={this.setExtraObject} changeButton={this.changeButton} muteFlag={this.state.muteFlag}/>
-            </header>
-        </div>
-    );
-  }
+
+
+
+
+  // render() {
+  //   return (
+  //       <div className="App">
+  //           <header className="App-header">
+  //               <h1>Sight ++</h1>
+  //               <Navigation voiceProps={this.state.voiceProps} objects={this.state.objects} muteFlag={this.state.muteFlag} cButton={this.state.cButton}/>
+  //               <br/>
+  //               <MuteVoices muteVoice={this.muteVoice} />
+  //               <br/>
+  //               <VoiceConfig setVoiceProps={this.setVoiceProps} changeButton={this.changeButton} muteFlag={this.state.muteFlag}/>
+  //               <br/>
+  //               <ObjectAddition setExtraObject={this.setExtraObject} changeButton={this.changeButton} muteFlag={this.state.muteFlag}/>
+  //           </header>
+  //       </div>
+  //   );
+  // }
+
+
 
 }

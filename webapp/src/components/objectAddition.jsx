@@ -25,7 +25,6 @@ export default class ObjectAddition extends Component {
         if (speechSynthesis.onvoiceschanged !== undefined) {
             speechSynthesis.onvoiceschanged = this.obtainVoices;
         }
-
     }
 
 
@@ -40,7 +39,9 @@ export default class ObjectAddition extends Component {
 
 
     obtainVoices() {
+        console.log(window.speechSynthesis);
         this.state.voiceList = window.speechSynthesis.getVoices();
+        console.log(this.state.voiceList);
     }
 
 
@@ -81,6 +82,7 @@ export default class ObjectAddition extends Component {
         this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
         }
+        console.log(this.state.voiceList);
         this.state.utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
         this.state.utterThis.rate = 2;// rate
         this.state.utterThis.pitch = 1.5;// pitch
