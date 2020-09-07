@@ -45,7 +45,6 @@ class Navigation extends Component {
         this.state.utterThis.voice = this.state.voiceList[this.state.langu]; // choose the language type(en-GB)
         this.state.utterThis.rate = this.state.rate;// rate
         this.state.utterThis.pitch = this.state.pitch;// pitch
-        console.log(this.state.pitch);
         this.state.synth.speak(this.state.utterThis);//speak
     }
 
@@ -75,8 +74,8 @@ class Navigation extends Component {
                 bell.play();
             }else {
                 if (self.state.isMute === false) {
-                    self.speakTexts(obj.msg);
-                    console.log(obj.msg);
+                    self.speakTexts(obj.name);
+                    console.log(obj.name);
                 }
             }
        })
@@ -86,11 +85,14 @@ class Navigation extends Component {
 
     componentDidMount() {
         // obtain the language lists
-        this.obtainVoices();
-        if (speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = this.obtainVoices;
+        if (window.speechSynthesis !== undefined) {
+            this.obtainVoices();
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = this.obtainVoices;
+            }
+        }else {
+            console.log("cannot use speech APIs");
         }
-
     }
 
 

@@ -18,9 +18,13 @@ export default class MuteVoices extends Component {
 
     componentDidMount() {
         // obtain the language lists
-        this.obtainVoices();
-        if (speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = this.obtainVoices;
+        if (window.speechSynthesis !== undefined) {
+            this.obtainVoices();
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = this.obtainVoices;
+            }
+        }else {
+            console.log("cannot use speech APIs");
         }
 
     }
