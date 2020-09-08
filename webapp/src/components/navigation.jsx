@@ -169,11 +169,13 @@ class Navigation extends Component {
 
 
     stopNavigate () {
-        if (this.state.synth !== null && this.state.synth.speaking === true) {
+        if (this.state.synth !== undefined && this.state.synth.speaking === true) {
             this.state.synth.cancel();
         }
 
-        if (this.state.socket === null) {
+        console.log(this.state.socket);
+
+        if (this.state.synth === null || this.state.socket === undefined) {
             this.speakTexts('You have not open the obstacle avoidance service.');
         }else {
             if (this.state.socket.readyState !== 1) {

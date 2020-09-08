@@ -84,14 +84,17 @@ export default class ObjectAddition extends Component {
         this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
         }
+        console.log(this.state.voiceList);
         this.state.utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
         this.state.utterThis.rate = 2;// rate
         this.state.utterThis.pitch = 1.5;// pitch
+        console.log("speak");
         window.speechSynthesis.speak(this.state.utterThis);//speak
     }
 
 
     setObjects() {
+        console.log(this.state.voiceList);
         var text = 'Hello, in this system, you can mark the objects you preferred by speaking... ' +
             'Now, please say the names of your preferred objects. after three d sound. d d d';
         this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
@@ -102,7 +105,6 @@ export default class ObjectAddition extends Component {
         this.state.utterThis.rate = 2;// rate
         this.state.utterThis.pitch = 1.5;// pitch
         window.speechSynthesis.speak(this.state.utterThis);//speak
-        //speechSynthesis.speak(utterThis);
         var self = this;
         this.state.utterThis.onend = function(event) {
             self.recogniseSpeech();
@@ -118,6 +120,7 @@ export default class ObjectAddition extends Component {
             if (window.speechSynthesis.speaking === true) {
                 window.speechSynthesis.cancel();
             }
+            console.log("click");
             this.speakTexts("This button can let you set the preferred objects which you would like to know first. " +
                 "If you want to use this function, please click it again immediately..");
         }else {
