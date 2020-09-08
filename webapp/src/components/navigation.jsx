@@ -9,7 +9,6 @@ class Navigation extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            synth: null,
             utterThis: null,
             voiceList: null,
             isMute: false,
@@ -32,8 +31,7 @@ class Navigation extends Component {
 
 
     obtainVoices() {
-        this.state.synth = window.speechSynthesis;
-        this.state.voiceList = this.state.synth.getVoices();
+        this.state.voiceList = window.speechSynthesis.getVoices();
     }
 
 
@@ -45,7 +43,7 @@ class Navigation extends Component {
         this.state.utterThis.voice = this.state.voiceList[this.state.langu]; // choose the language type(en-GB)
         this.state.utterThis.rate = this.state.rate;// rate
         this.state.utterThis.pitch = this.state.pitch;// pitch
-        this.state.synth.speak(this.state.utterThis);//speak
+        window.speechSynthesis.speak(this.state.utterThis);//speak
     }
 
 
@@ -110,8 +108,8 @@ class Navigation extends Component {
 
         //mute
         if (newProps.muteFlag === true) { // mute
-            if (this.state.synth !== null && this.state.synth.speaking === true) {
-                this.state.synth.cancel();
+            if (window.speechSynthesis !== null && window.speechSynthesis.speaking === true) {
+                window.speechSynthesis.cancel();
                 this.state.isMute = true;
             }
         }else {  // resume
@@ -170,11 +168,11 @@ class Navigation extends Component {
 
 
     stopNavigate () {
-        if (this.state.synth !== undefined && this.state.synth.speaking === true) {
-            this.state.synth.cancel();
+        if (window.speechSynthesis !== undefined && window.speechSynthesis.speaking === true) {
+            window.speechSynthesis.cancel();
         }
 
-        if (this.state.synth === null || this.state.socket === undefined) {
+        if (window.speechSynthesis === null || this.state.socket === undefined) {
             this.speakTexts('You have not open the obstacle avoidance service.');
         }else {
             if (this.state.socket.readyState !== 1) {

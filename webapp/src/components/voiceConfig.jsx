@@ -6,7 +6,6 @@ export default class VoiceConfig extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            synth: null,
             utterThis: null,
             voiceList: null,
             lastClickTime: null
@@ -47,8 +46,7 @@ export default class VoiceConfig extends Component {
 
 
     obtainVoices() {
-        this.state.synth = window.speechSynthesis;
-        this.state.voiceList = this.state.synth.getVoices();
+        this.state.voiceList = window.speechSynthesis.getVoices();
     }
 
 
@@ -196,7 +194,7 @@ export default class VoiceConfig extends Component {
         this.state.utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
         this.state.utterThis.rate = 2;// rate
         this.state.utterThis.pitch = 1.5;// pitch
-        this.state.synth.speak(this.state.utterThis);//speak
+        window.speechSynthesis.speak(this.state.utterThis);//speak
     }
 
 
@@ -215,7 +213,7 @@ export default class VoiceConfig extends Component {
         this.state.utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
         this.state.utterThis.rate = 2;// rate
         this.state.utterThis.pitch = 1.5;// pitch
-        this.state.synth.speak(this.state.utterThis);//speak
+        window.speechSynthesis.speak(this.state.utterThis);//speak
         var self = this;
         this.state.utterThis.onend = function(event) {
             self.recogniseSpeech();

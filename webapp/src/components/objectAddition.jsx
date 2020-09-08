@@ -125,7 +125,6 @@ export default class ObjectAddition extends Component {
             if (window.speechSynthesis.speaking === true) {
                 window.speechSynthesis.cancel();
             }
-            console.log("click");
             this.speakTexts("This button can let you set the preferred objects which you would like to know first. " +
                 "If you want to use this function, please click it again immediately..");
         }else {

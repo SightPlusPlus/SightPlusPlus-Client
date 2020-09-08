@@ -6,7 +6,6 @@ export default class MuteVoices extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            synth: null,
             muteFlag: false
         };
 
@@ -30,8 +29,7 @@ export default class MuteVoices extends Component {
     }
 
     obtainVoices() {
-        this.state.synth = window.speechSynthesis;
-        this.state.voiceList = this.state.synth.getVoices();
+        this.state.voiceList = window.speechSynthesis.getVoices();
     }
 
     speakTexts(text) {
@@ -42,7 +40,7 @@ export default class MuteVoices extends Component {
         utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
         utterThis.rate = 2;// rate
         utterThis.pitch = 1.5;// pitch
-        this.state.synth.speak(utterThis);//speak
+        window.speechSynthesis.speak(utterThis);//speak
     }
 
 
@@ -64,12 +62,15 @@ export default class MuteVoices extends Component {
                 utterThis.voice = self.state.voiceList[2]; // choose the language type(en-GB)
                 utterThis.rate = 2;// rate
                 utterThis.pitch = 1.5;// pitch
-                self.state.synth.speak(utterThis);//speak
+                window.speechSynthesis.speak(utterThis);//speak
             }, 500);
         }else {
             var muteFlag = false;
             this.state.muteFlag = false;
             this.props.muteVoice(muteFlag);
+            if (window.speechSynthesis.speaking === true) {
+                window.speechSynthesis.cancel();
+            }
             this.speakTexts("Sounds are resumed. ");
         }
 
