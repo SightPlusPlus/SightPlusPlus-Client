@@ -51,7 +51,7 @@ class Navigation extends Component {
 
     startNavigation() {
         var self = this;
-        this.state.socket = new WebSocket('ws://localhost:7979');
+        this.state.socket = new WebSocket('ws://100.65.152.15:7979');
         this.state.isMute = false;
         const bell = new UIfx(
             beepsound,
@@ -136,6 +136,7 @@ class Navigation extends Component {
 
 
     handleClick () {
+        console.log(navigator.userAgent);
         if(this.state.lastClickTime === null ) { // click 1
             var d = new Date();
             this.state.lastClickTime = d.getTime();
@@ -172,8 +173,6 @@ class Navigation extends Component {
         if (this.state.synth !== undefined && this.state.synth.speaking === true) {
             this.state.synth.cancel();
         }
-
-        console.log(this.state.socket);
 
         if (this.state.synth === null || this.state.socket === undefined) {
             this.speakTexts('You have not open the obstacle avoidance service.');

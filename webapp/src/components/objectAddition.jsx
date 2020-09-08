@@ -52,9 +52,14 @@ export default class ObjectAddition extends Component {
         speechConfig.speechRecognitionLanguage = "en-US";
         var audioConfig  = window.SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
         var recogniser = new window.SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+        console.log(speechConfig);
+        console.log(audioConfig);
+        console.log(recogniser);
 
         recogniser.recognizeOnceAsync( result => {
+            console.log(result);
             if (result.text !== undefined) {
+                console.log("defined");
                 var c = result.text.toLowerCase();
                 c = c.replace(/[^a-z]/gi, ' ');
                 var o = c.split(' ');
