@@ -179,7 +179,7 @@ export default class VoiceConfig extends Component {
 
 
     recogniseSpeech(){
-        var speechConfig = window.SpeechSDK.SpeechConfig.fromSubscription('089ccb86c773418db9cf38d11833f5a0', 'westus');
+        var speechConfig = window.SpeechSDK.SpeechConfig.fromSubscription('fa205a4643d74b3ebc3ccc6179c8cf29', 'westus');
         speechConfig.speechRecognitionLanguage = "en-US";
         var audioConfig  = window.SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
         var recogniser = new window.SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);

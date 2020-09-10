@@ -24,7 +24,7 @@ Choose the LTS version.
 
 
 
-## Run the Web Application
+## Run the Web Application on PC Browsers
 + Install the dependencies
 
 After you download the project package and extract it, open CMD in the 'webapp' folder. 
@@ -43,6 +43,11 @@ https://github.com/SightPP/Intel_IXN_SightPP
 ```bash
 yarn start
 ```
+
+## Run the Web Application on Android Browsers
+
+
+
 
 ## User Manual
 There are five buttons in the page. 

@@ -56,20 +56,17 @@ export default class ObjectAddition extends Component {
                 donotfindGB = false;
             }
         })
-        console.log("objectAddition " + this.state.lang);
     }
 
 
     recogniseSpeech(){
-        var speechConfig = window.SpeechSDK.SpeechConfig.fromSubscription('089ccb86c773418db9cf38d11833f5a0', 'westus');
+        var speechConfig = window.SpeechSDK.SpeechConfig.fromSubscription('fa205a4643d74b3ebc3ccc6179c8cf29', 'westus');
         speechConfig.speechRecognitionLanguage = "en-US";
         var audioConfig  = window.SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
         var recogniser = new window.SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
 
         recogniser.recognizeOnceAsync( result => {
-            console.log(result);
             if (result.text !== undefined) {
-                console.log("defined");
                 var c = result.text.toLowerCase();
                 c = c.replace(/[^a-z]/gi, ' ');
                 var o = c.split(' ');
@@ -114,7 +111,7 @@ export default class ObjectAddition extends Component {
         this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
         }
-        this.state.utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
+        this.state.utterThis.voice = this.state.voiceList[this.state.lang]; // choose the language type(en-GB)
         this.state.utterThis.rate = 2;// rate
         this.state.utterThis.pitch = 1.5;// pitch
         window.speechSynthesis.speak(this.state.utterThis);//speak

@@ -43,7 +43,6 @@ export default class MuteVoices extends Component {
                 donotfindGB = false;
             }
         })
-        console.log("muteVoice " + this.state.lang);
     }
 
 
