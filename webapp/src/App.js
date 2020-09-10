@@ -4,6 +4,7 @@ import Navigation from "./components/navigation";
 import VoiceConfig from "./components/voiceConfig";
 import ObjectAddition from "./components/objectAddition";
 import MuteVoices from "./components/muteVoices";
+import alllogos from "./images/alllogos.png";
 
 
 
@@ -69,6 +70,8 @@ export default class App extends React.Component{
                     <VoiceConfig setVoiceProps={this.setVoiceProps} changeButton={this.changeButton}  muteFlag={this.state.muteFlag}/>
                     <br/>
                     <ObjectAddition setExtraObject={this.setExtraObject} changeButton={this.changeButton} muteFlag={this.state.muteFlag} />
+                    <br/>
+                    <img src={alllogos} width="180" height="60" />
                 </header>
             </div>
         );
