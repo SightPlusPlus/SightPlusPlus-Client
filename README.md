@@ -66,7 +66,7 @@ There are five buttons in the page.
 
 ***Notice: the "Voice Mode" and  "Mark Preferred Objects" are NOT supported on Android browsers.
 
-<img src="https://raw.githubusercontent.com/SightPP/SightPP_VoiceInterface/webapp/webapp/readme_images/interface.PNG" width="350" alt="interface" /> 
+<img src="https://github.com/SightPP/SightPP_VoiceInterface/blob/webapp/webapp/readme_images/mainpage.PNG" /> 
 
 
 
