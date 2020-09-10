@@ -12,7 +12,7 @@ class Navigation extends Component {
             utterThis: null,
             voiceList: null,
             isMute: false,
-            langu: 2, // default language: British eng
+            lang: null, // default language: British eng
             rate: 2,
             pitch: 1.5,
             objects: null,
@@ -23,6 +23,7 @@ class Navigation extends Component {
         //binding
         this.speakTexts = this.speakTexts.bind(this);
         this.obtainVoices = this.obtainVoices.bind(this);
+        this.initialiseVoice = this.initialiseVoice.bind(this);
         this.startNavigation = this.startNavigation.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.stopNavigate = this.stopNavigate.bind(this);
@@ -35,12 +36,23 @@ class Navigation extends Component {
     }
 
 
+    initialiseVoice () {
+        var donotfindGB = true;
+        this.state.voiceList.forEach((item,index) => {
+            if (item.lang === "en-GB" && donotfindGB ) {
+                this.state.lang = index;
+                donotfindGB = false;
+            }
+        })
+    }
+
+
     speakTexts(text) {
         this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
         this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
         }
-        this.state.utterThis.voice = this.state.voiceList[this.state.langu]; // choose the language type(en-GB)
+        this.state.utterThis.voice = this.state.voiceList[this.state.lang]; // choose the language type(en-GB)
         this.state.utterThis.rate = this.state.rate;// rate
         this.state.utterThis.pitch = this.state.pitch;// pitch
         window.speechSynthesis.speak(this.state.utterThis);//speak
@@ -96,6 +108,7 @@ class Navigation extends Component {
 
 
     componentWillReceiveProps(newProps) {
+        console.log(newProps);
         //changeButton
         if (newProps.cButton === true) {
             if (this.state.socket !== null && this.state.socket !== undefined) {
@@ -120,7 +133,7 @@ class Navigation extends Component {
 
         //set voice mode
         if (Array.prototype.isPrototypeOf(newProps.voiceProps) && newProps.voiceProps.length !== 0) {
-            this.state.langu = newProps.voiceProps.langu;
+            this.state.lang = newProps.voiceProps.lang;
             this.state.rate = newProps.voiceProps.speed;
             this.state.pitch = newProps.voiceProps.pitch;
         }
@@ -134,7 +147,13 @@ class Navigation extends Component {
 
 
     handleClick () {
-        console.log(navigator.userAgent);
+        if (this.state.lang === null) {
+            this.componentDidMount();
+            this.initialiseVoice();
+        }
+        console.log(this.state.lang);
+        console.log(this.state.voiceList);
+
         if(this.state.lastClickTime === null ) { // click 1
             var d = new Date();
             this.state.lastClickTime = d.getTime();

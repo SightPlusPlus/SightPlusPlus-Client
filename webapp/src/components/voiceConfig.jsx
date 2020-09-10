@@ -6,6 +6,11 @@ export default class VoiceConfig extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            lang: null,
+            speed: 2,
+            pitch: 1.5,
+            langGB: null,
+            langUS: null,
             utterThis: null,
             voiceList: null,
             lastClickTime: null
@@ -13,6 +18,7 @@ export default class VoiceConfig extends Component {
 
         //binding
         this.obtainVoices = this.obtainVoices.bind(this);
+        this.initialiseVoice = this.initialiseVoice.bind(this);
         this.setVoice = this.setVoice.bind(this);
         this.speakTexts = this.speakTexts.bind(this);
         this.recogniseSpeech = this.recogniseSpeech.bind(this);
@@ -22,6 +28,7 @@ export default class VoiceConfig extends Component {
 
     componentDidMount() {
         // obtain the language lists
+        var self = this;
         if (window.speechSynthesis !== undefined) {
             this.obtainVoices();
             if (speechSynthesis.onvoiceschanged !== undefined) {
@@ -50,11 +57,31 @@ export default class VoiceConfig extends Component {
     }
 
 
+
+    initialiseVoice () {
+        var donotfindGB = true;
+        var donotfindUS = true;
+        this.state.voiceList.forEach((item,index) => {
+            if (item.lang === "en-GB" && donotfindGB ) {
+                this.state.langGB = index;
+                donotfindGB = false;
+            }
+
+            if (item.lang === "en-US" && donotfindUS ) {
+                this.state.langUS = index;
+                donotfindUS = false;
+            }
+        })
+        this.state.lang = this.state.langGB;
+        console.log("VoiceConfig " + this.state.lang);
+    }
+
+
     checkValidation(str) {
-        var langu;
+        var lang;
         var speed;
         var pitch;
-        var checkLangu = 0;
+        var checkLang = 0;
         var checkSpeed = 0;
         var checkPitch = 0;
 
@@ -62,14 +89,16 @@ export default class VoiceConfig extends Component {
 
         if (str[0] === "British" || str[0] === "American") {
             if(str[0] === "British") {
-                langu = 2;
+                lang = this.state.langGB;
+                this.state.lang = this.state.langGB;
             }else {
-                langu = 1;
+                lang = this.state.langUS;
+                this.state.lang = this.state.langUS;
             }
         }else {
-            checkLangu = 1;
+            checkLang = 1;
         }
-        console.log("langu = " + langu);
+        console.log("lang = " + lang);
 
         // set the speed
         switch (str[3]) {
@@ -114,15 +143,15 @@ export default class VoiceConfig extends Component {
 
 
         // Valid Input
-        if (checkLangu === 0 && checkSpeed === 0 && checkPitch === 0) {
-            let voiceProps = {langu, speed, pitch};
+        if (checkLang === 0 && checkSpeed === 0 && checkPitch === 0) {
+            let voiceProps = {lang, speed, pitch};
             return voiceProps;
         }
 
 
         //Invalid Input
         //invalid language type
-        if (checkLangu === 1) {
+        if (checkLang === 1) {
             this.speakTexts("Invalid Language type.");
         }
 
@@ -191,9 +220,9 @@ export default class VoiceConfig extends Component {
         this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
         }
-        this.state.utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
-        this.state.utterThis.rate = 2;// rate
-        this.state.utterThis.pitch = 1.5;// pitch
+        this.state.utterThis.voice = this.state.voiceList[this.state.lang]; // choose the language type(en-GB)
+        this.state.utterThis.rate = this.state.speed;// rate
+        this.state.utterThis.pitch = this.state.pitch;// pitch
         window.speechSynthesis.speak(this.state.utterThis);//speak
     }
 
@@ -210,9 +239,9 @@ export default class VoiceConfig extends Component {
         this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
         }
-        this.state.utterThis.voice = this.state.voiceList[2]; // choose the language type(en-GB)
-        this.state.utterThis.rate = 2;// rate
-        this.state.utterThis.pitch = 1.5;// pitch
+        this.state.utterThis.voice = this.state.voiceList[this.state.lang]; // choose the language type(en-GB)
+        this.state.utterThis.rate = this.state.speed;// rate
+        this.state.utterThis.pitch = this.state.pitch;// pitch
         window.speechSynthesis.speak(this.state.utterThis);//speak
         var self = this;
         this.state.utterThis.onend = function(event) {
@@ -223,6 +252,12 @@ export default class VoiceConfig extends Component {
 
 
     handleClick () {
+        if (this.state.lang === null) {
+            this.componentDidMount();
+            this.initialiseVoice();
+        }
+        console.log(this.state.langUS);
+
         if(this.state.lastClickTime === null ) {
             var d = new Date();
             this.state.lastClickTime = d.getTime();
