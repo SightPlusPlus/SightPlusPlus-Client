@@ -151,8 +151,6 @@ class Navigation extends Component {
             this.componentDidMount();
             this.initialiseVoice();
         }
-        console.log(this.state.lang);
-        console.log(this.state.voiceList);
 
         if(this.state.lastClickTime === null ) { // click 1
             var d = new Date();

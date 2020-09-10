@@ -73,7 +73,6 @@ export default class VoiceConfig extends Component {
             }
         })
         this.state.lang = this.state.langGB;
-        console.log("VoiceConfig " + this.state.lang);
     }
 
 
@@ -98,7 +97,6 @@ export default class VoiceConfig extends Component {
         }else {
             checkLang = 1;
         }
-        console.log("lang = " + lang);
 
         // set the speed
         switch (str[3]) {
@@ -111,7 +109,7 @@ export default class VoiceConfig extends Component {
             default:
                 speed = parseFloat(str[3]);
         }
-        console.log("speed = " + speed);
+
         if (isNaN(speed)) {
             checkSpeed = 1;
         }else {
@@ -132,7 +130,7 @@ export default class VoiceConfig extends Component {
             default:
                 pitch = parseFloat(str[5]);
         }
-        console.log("pitch = " + pitch);
+
         if (isNaN(pitch)) {
             checkPitch = 1;
         }else {
@@ -256,7 +254,6 @@ export default class VoiceConfig extends Component {
             this.componentDidMount();
             this.initialiseVoice();
         }
-        console.log(this.state.langUS);
 
         if(this.state.lastClickTime === null ) {
             var d = new Date();
