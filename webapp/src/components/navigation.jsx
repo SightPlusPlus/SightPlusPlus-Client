@@ -17,7 +17,8 @@ class Navigation extends Component {
             pitch: 1.5,
             objects: null,
             lastClickTime: null,
-            runFun: false
+            runFun: false,
+            addr: null
         };
 
         //binding
@@ -28,7 +29,6 @@ class Navigation extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.stopNavigate = this.stopNavigate.bind(this);
     }
-
 
 
     obtainVoices() {
@@ -61,7 +61,7 @@ class Navigation extends Component {
 
     startNavigation() {
         var self = this;
-        this.state.socket = new WebSocket('ws://100.65.152.15:7979');
+        this.state.socket = new WebSocket('ws://localhost:7979');
         this.state.isMute = false;
         const bell = new UIfx(
             beepsound,

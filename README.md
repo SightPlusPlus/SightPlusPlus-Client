@@ -24,7 +24,7 @@ Choose the LTS version.
 
 
 
-## Run the Web Application on PC Browsers
+## Run the Web Application
 + Install the dependencies
 
 After you download the project package and extract it, open CMD in the 'webapp' folder. 
@@ -43,14 +43,28 @@ https://github.com/SightPP/Intel_IXN_SightPP
 ```bash
 yarn start
 ```
+## Access via PC Browsers
++ Open one of the recommended browsers (Google Chrome, Firefox, Microsoft Edge, Opera Browser), the web address is "localhost:3000";
 
-## Run the Web Application on Android Browsers
+## Access via Android Browsers
+***Notice: the "Voice Mode" and  "Mark Preferred Objects" are NOT supported on Android browsers.
 
++ Make sure the computer you are running the web application and the mobile phone are under the same WIFI.
+
++ In the win10 computer, open the cmd and input "ipconfig" to get the IPv4 address.
+
++ Find the file "navigation.jsx" under the "SightPP_VoiceInterface\webapp\src\components".
+In line 64, replace the string "localhost" by the IPv4 address of your computer and save this change.
+
++ Open Android Chrome or Android Firefox in your mobile phone, input the website address (IPv4: 3000), 
+for example, if the IPv4 address is 100.65.152.15, then the website address is 100.65.152.15:3000.
 
 
 
 ## User Manual
 There are five buttons in the page. 
+
+***Notice: the "Voice Mode" and  "Mark Preferred Objects" are NOT supported on Android browsers.
 
 <img src="https://raw.githubusercontent.com/SightPP/SightPP_VoiceInterface/webapp/webapp/readme_images/interface.PNG" width="350" alt="interface" /> 
 
