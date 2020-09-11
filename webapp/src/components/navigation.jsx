@@ -9,24 +9,26 @@ class Navigation extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            utterThis: null,
             voiceList: null,
-            langu: 2, // default language: British eng
+            isMute: false,
+            lang: null, // default language: British eng
             rate: 2,
             pitch: 1.5,
             objects: null,
-            preClickTime: null,
-            postClickTime: null
+            lastClickTime: null,
+            runFun: false,
+            addr: null
         };
 
         //binding
         this.speakTexts = this.speakTexts.bind(this);
         this.obtainVoices = this.obtainVoices.bind(this);
+        this.initialiseVoice = this.initialiseVoice.bind(this);
         this.startNavigation = this.startNavigation.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.stopNavigate = this.stopNavigate.bind(this);
     }
-
-    //ws = new WebSocket('ws://localhost:7979');
-
 
 
     obtainVoices() {
@@ -34,27 +36,33 @@ class Navigation extends Component {
     }
 
 
+    initialiseVoice () {
+        var donotfindGB = true;
+        this.state.voiceList.forEach((item,index) => {
+            if (item.lang === "en-GB" && donotfindGB ) {
+                this.state.lang = index;
+                donotfindGB = false;
+            }
+        })
+    }
+
+
     speakTexts(text) {
-        var utterThis = new SpeechSynthesisUtterance(text); // text content
-        utterThis.onerror = function (event) {
+        this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
+        this.state.utterThis.onerror = function (event) {
             console.error('SpeechSynthesisUtterance.onerror');
         }
-        utterThis.voice = this.state.voiceList[this.state.langu]; // choose the language type(en-GB)
-        utterThis.rate = this.state.rate;// rate
-        utterThis.pitch = this.state.pitch;// pitch
-        speechSynthesis.speak(utterThis); //speak
+        this.state.utterThis.voice = this.state.voiceList[this.state.lang]; // choose the language type(en-GB)
+        this.state.utterThis.rate = this.state.rate;// rate
+        this.state.utterThis.pitch = this.state.pitch;// pitch
+        window.speechSynthesis.speak(this.state.utterThis);//speak
     }
 
 
     startNavigation() {
-        // var obj = JSON.parse('{ "name":"runoob", "alexa":10000, "site":"www.runoob.com" }');
-        // console.log(typeof(obj));
-        // console.log(obj);
-
-
-
-        const socket = new WebSocket('ws://localhost:7979');
         var self = this;
+        this.state.socket = new WebSocket('ws://localhost:7979');
+        this.state.isMute = false;
         const bell = new UIfx(
             beepsound,
             {
@@ -63,77 +71,132 @@ class Navigation extends Component {
             }
         );
 
-
-        if (self.state.objects != null) {
-            var jsonData = JSON.stringify(self.state.objects);
-            socket.addEventListener('open', function(event) {
-                socket.send(jsonData);
+        if (this.state.objects !== null) {
+            this.state.socket.addEventListener('open', function(event) {
+                self.state.socket.send(self.state.objects);
             });
         }
 
 
-        console.log("hhhhhh");
-
-        socket.addEventListener('message', function(event) {
-            console.log(event.data);
-            const testdata = JSON.parse(event.data);
-
-            if (-1) { // if receive a emergency signal
+        this.state.socket.addEventListener('message', function(event) {
+            var obj = JSON.parse(event.data);
+            if (obj.priority == 4) { // if receive a emergency signal
                 bell.play();
+            }else {
+                if (self.state.isMute === false) {
+                    self.speakTexts(obj.msg);
+                    console.log(obj.msg);
+                }
             }
-
-            self.speakTexts(event.data);
-        })
-
+       })
     }
 
 
 
     componentDidMount() {
         // obtain the language lists
-        this.obtainVoices();
-        if (speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = this.obtainVoices;
+        if (window.speechSynthesis !== undefined) {
+            this.obtainVoices();
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = this.obtainVoices;
+            }
+        }else {
+            console.log("cannot use speech APIs");
         }
-
     }
 
 
 
-    async componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps) {
         console.log(newProps);
-        if (newProps.voiceProps.langu != null) {
-            this.state.langu = newProps.voiceProps.langu;
+        //changeButton
+        if (newProps.cButton === true) {
+            if (this.state.socket !== null && this.state.socket !== undefined) {
+                if (this.state.socket.readyState === 1) {
+                    this.speakTexts('Obstacle avoidance stopped.');
+                    this.state.socket.close();
+                }
+            }
+        }
+
+        //mute
+        if (newProps.muteFlag === true) { // mute
+            if (window.speechSynthesis !== null && window.speechSynthesis.speaking === true) {
+                window.speechSynthesis.cancel();
+                this.state.isMute = true;
+            }
+        }else {  // resume
+            if (newProps.muteFlag === false) {
+                this.state.isMute = false;
+            }
+        }
+
+        //set voice mode
+        if (Array.prototype.isPrototypeOf(newProps.voiceProps) && newProps.voiceProps.length !== 0) {
+            this.state.lang = newProps.voiceProps.lang;
             this.state.rate = newProps.voiceProps.speed;
             this.state.pitch = newProps.voiceProps.pitch;
         }
-        if (newProps.objects != null) {
+
+        //mark preferred objects
+        if (Array.prototype.isPrototypeOf(newProps.objects) && newProps.voiceProps.objects !== 0) {
             this.state.objects = newProps.objects;
         }
-
-
-        console.log(this.state);
     }
 
 
 
     handleClick () {
-        if (this.state.preClickTime == null) {
-            console.log("first click");
+        if (this.state.lang === null) {
+            this.componentDidMount();
+            this.initialiseVoice();
+        }
+
+        if(this.state.lastClickTime === null ) { // click 1
             var d = new Date();
-            this.state.preClickTime = d.getTime();
-            this.speakTexts("This button can offer obstacle avoidance service. If you want to use this function, please click it again immediately.");
-        }else{
-            console.log("second click");
+            this.state.lastClickTime = d.getTime();
+            if (window.speechSynthesis.speaking === true) {
+                window.speechSynthesis.cancel();
+            }
+            this.speakTexts("This button can offer obstacle avoidance service. " +
+                "If you want to use this function, please click it again immediately.");
+        }else {
             var d = new Date();
-            this.state.postClickTime = d.getTime();
-            if(this.state.postClickTime - this.state.preClickTime > 8000) {
-                this.state.preClickTime = null;
-                this.state.postClickTime = null;
-            }else {
+            var duration = d.getTime() - this.state.lastClickTime;
+
+            if (duration > 8500) { // click 1
+                if (window.speechSynthesis.speaking === true) {
+                    window.speechSynthesis.cancel();
+                }
+                this.speakTexts("This button can offer obstacle avoidance service. " +
+                    "If you want to use this function, please click it again immediately.");
+                d = new Date();
+                this.state.lastClickTime = d.getTime();
+            }else {  // click 2
+                if (window.speechSynthesis.speaking === true) {
+                    window.speechSynthesis.cancel();
+                }
                 this.startNavigation();
-                this.state.preClickTime = null;
-                this.state.postClickTime = null;
+                d = new Date();
+                this.state.lastClickTime = d.getTime();
+            }
+        }
+    }
+
+
+    stopNavigate () {
+        if (window.speechSynthesis !== undefined && window.speechSynthesis.speaking === true) {
+            window.speechSynthesis.cancel();
+        }
+
+        if (window.speechSynthesis === null || this.state.socket === undefined) {
+            this.speakTexts('You have not open the obstacle avoidance service.');
+        }else {
+            if (this.state.socket.readyState !== 1) {
+                this.speakTexts('You have not open the obstacle avoidance service.');
+            }else {
+                this.state.socket.close();
+                this.speakTexts('Obstacle avoidance stopped.');
             }
         }
     }
@@ -147,19 +210,12 @@ class Navigation extends Component {
                 <Button variant="warning" size="lg" block onClick={this.handleClick}>
                     Start
                 </Button>
+                <Button variant="danger" size="lg" block onClick={this.stopNavigate}>
+                    Stop
+                </Button>
             </div>
         );
     }
 }
 
 export default Navigation;
-
-
-// var ifObtained = setInterval(()=> {
-//     console.log(voices);
-//     console.log(Object.keys(voices).length);
-//
-//     if (Object.keys(voices).length != 0) {
-//         clearInterval(ifObtained);
-//     }
-// }, 2000);

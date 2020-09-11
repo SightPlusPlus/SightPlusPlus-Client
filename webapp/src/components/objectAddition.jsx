@@ -6,75 +6,157 @@ export default class ObjectAddition extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            preClickTime: null,
-            postClickTime: null
+            lang: null,
+            utterThis: null,
+            voiceList: null,
+            lastClickTime: null
         };
 
         //binding
+        this.obtainVoices = this.obtainVoices.bind(this);
+        this.initialiseVoice = this.initialiseVoice.bind(this);
         this.recogniseSpeech = this.recogniseSpeech.bind(this);
         this.speakTexts = this.speakTexts.bind(this);
         this.setObjects = this.setObjects.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
 
+    componentDidMount() {
+        // obtain the language lists
+        if (window.speechSynthesis !== undefined) {
+            this.obtainVoices();
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = this.obtainVoices;
+            }
+        }else {
+            console.log("cannot use speech APIs");
+        }
+    }
+
+
+    async componentWillReceiveProps(newProps) {
+        //mute
+        if (newProps.muteFlag === true) { // mute
+            if (window.speechSynthesis.speaking === true) {
+                window.speechSynthesis.cancel();
+            }
+        }
+    }
+
+
+    obtainVoices() {
+        this.state.voiceList = window.speechSynthesis.getVoices();
+    }
+
+    initialiseVoice () {
+        var donotfindGB = true;
+        this.state.voiceList.forEach((item,index) => {
+            if (item.lang === "en-GB" && donotfindGB ) {
+                this.state.lang = index;
+                donotfindGB = false;
+            }
+        })
+    }
+
+
     recogniseSpeech(){
-        var speechConfig = window.SpeechSDK.SpeechConfig.fromSubscription('089ccb86c773418db9cf38d11833f5a0', 'westus');
+        var speechConfig = window.SpeechSDK.SpeechConfig.fromSubscription('fa205a4643d74b3ebc3ccc6179c8cf29', 'westus');
         speechConfig.speechRecognitionLanguage = "en-US";
         var audioConfig  = window.SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
         var recogniser = new window.SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
 
         recogniser.recognizeOnceAsync( result => {
-            console.log(result.text);
-            if (result.text != undefined) {
-                this.speakTexts(`Your preference is ${result.text}. This will be applied to your obstacle avoidance service.`);
-                var objects = result.text.split(' ');
-                this.props.setExtraObject(objects);
+            if (result.text !== undefined) {
+                var c = result.text.toLowerCase();
+                c = c.replace(/[^a-z]/gi, ' ');
+                var o = c.split(' ');
+                var objects = [];
+                o.forEach(item => {
+                    if (item !== "") {
+                        objects.push(item);
+                    }
+                })
+                if (objects !== []) {
+                    this.speakTexts(`Your preference is ${result.text}. This will be applied to your obstacle avoidance service.`);
+                    this.props.setExtraObject(objects);
+                }else {
+                    this.speakTexts('you gave us an invalid answer. please try this button again in a quieter environment');
+                }
             }else {
-                console.log('blank');
+                this.speakTexts('we don\'t receive your answer. please try this button again');
             }
-
         },err => {
             console.log(err);
         });
-
     }
 
-    speakTexts(texts) {
-        var synth = window.speechSynthesis;
-        var voices = synth.getVoices();//get language lists
 
-        var utterThis = new SpeechSynthesisUtterance(texts); // text content
-        utterThis.voice = voices[2]; // choose the language type(en-GB)
-        utterThis.pitch = 2;// pitch
-        utterThis.rate = 1.5;// speed
+    speakTexts(text) {
+        this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
+        this.state.utterThis.onerror = function (event) {
+            console.error('SpeechSynthesisUtterance.onerror');
+        }
 
-        synth.speak(utterThis); //speak
+        this.state.utterThis.voice = this.state.voiceList[this.state.lang]; // choose the language type(en-GB)
+        this.state.utterThis.rate = 2;// rate
+        this.state.utterThis.pitch = 1.5;// pitch
+        window.speechSynthesis.speak(this.state.utterThis);//speak
     }
 
 
     setObjects() {
-        this.speakTexts('Hello, in this system, you can mark the objects you preferred by speaking... Now, please say the names of your preferred objects. after three d sound. d d d');
-        setTimeout(this.recogniseSpeech, 11500);
+        var text = 'Hello, in this system, you can mark the objects you preferred by speaking... ' +
+            'Now, please say the names of your preferred objects. after three d sound. d d d';
+        this.state.utterThis = new SpeechSynthesisUtterance(text); // text content
+        this.state.utterThis.onerror = function (event) {
+            console.error('SpeechSynthesisUtterance.onerror');
+        }
+        this.state.utterThis.voice = this.state.voiceList[this.state.lang]; // choose the language type(en-GB)
+        this.state.utterThis.rate = 2;// rate
+        this.state.utterThis.pitch = 1.5;// pitch
+        window.speechSynthesis.speak(this.state.utterThis);//speak
+        var self = this;
+        this.state.utterThis.onend = function(event) {
+            self.recogniseSpeech();
+        }
     }
 
 
     handleClick () {
-        if (this.state.preClickTime == null) {
-            console.log("first click");
+        if (this.state.lang === null) {
+            this.componentDidMount();
+            this.initialiseVoice();
+        }
+
+        if(this.state.lastClickTime === null ) {
             var d = new Date();
-            this.state.preClickTime = d.getTime();
-            this.speakTexts("This button can let you set the preferred objects which you would like to know first. If you want to use this function, please click it again immediately..");
-        }else{
-            console.log("second click");
+            this.state.lastClickTime = d.getTime();
+            this.props.changeButton();
+            if (window.speechSynthesis.speaking === true) {
+                window.speechSynthesis.cancel();
+            }
+            this.speakTexts("This button can let you set the preferred objects which you would like to know first. " +
+                "If you want to use this function, please click it again immediately..");
+        }else {
             var d = new Date();
-            this.state.postClickTime = d.getTime();
-            if(this.state.postClickTime - this.state.preClickTime > 15000) {
-                this.state.preClickTime = null;
-                this.state.postClickTime = null;
+            var duration = d.getTime() - this.state.lastClickTime;
+
+            if (duration > 9000) {
+                this.props.changeButton();
+                if (window.speechSynthesis.speaking === true) {
+                    window.speechSynthesis.cancel();
+                }
+                this.speakTexts("This button can let you set the preferred objects which you would like to know first. " +
+                    "If you want to use this function, please click it again immediately..");
+                d = new Date();
+                this.state.lastClickTime = d.getTime();
             }else {
+                if (window.speechSynthesis.speaking === true) {
+                    window.speechSynthesis.cancel();
+                }
                 this.setObjects();
-                this.state.preClickTime = null;
-                this.state.postClickTime = null;
+                d = new Date();
+                this.state.lastClickTime = d.getTime();
             }
         }
     }
