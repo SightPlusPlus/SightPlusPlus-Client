@@ -62,7 +62,11 @@ class Navigation extends Component {
     startNavigation() {
         var self = this;
         this.state.socket = new WebSocket('ws://localhost:7979');
-        this.state.isMute = false;
+        if (this.state.isMute === true) {
+            this.state.isMute = false;
+            this.props.resumeMuteFlag();
+        }
+
         const bell = new UIfx(
             beepsound,
             {
@@ -84,8 +88,8 @@ class Navigation extends Component {
                 bell.play();
             }else {
                 if (self.state.isMute === false) {
-                    self.speakTexts(obj.msg);
-                    console.log(obj.msg);
+                    self.speakTexts(obj.name);
+                    console.log(obj.name);
                 }
             }
        })
