@@ -68,7 +68,7 @@ export default class ObjectAddition extends Component {
         recogniser.recognizeOnceAsync( result => {
             if (result.text !== undefined) {
                 var c = result.text.toLowerCase();
-                c = c.replace(/[^a-z]/gi, ' ');
+                c = c.replace(/[^a-z]/gi, ' '); //delete special characters eg: comma, full stop
                 var o = c.split(' ');
                 var objects = [];
                 o.forEach(item => {

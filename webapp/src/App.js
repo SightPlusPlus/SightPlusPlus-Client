@@ -16,20 +16,23 @@ export default class App extends React.Component{
         voiceProps: [],
         objects: [],
         muteFlag: false,
-        cButton: false
+        cButton: false,
+        resumeFlag: false
     };
 
     this.setVoiceProps = this.setVoiceProps.bind(this);
     this.setExtraObject = this.setExtraObject.bind(this);
     this.muteVoice = this.muteVoice.bind(this);
     this.changeButton = this.changeButton.bind(this);
+    this.resumeMuteFlag = this.resumeMuteFlag.bind(this);
   }
 
   setVoiceProps = (voiceProps) => {
       this.setState({
           muteFlag: 0,
           voiceProps: voiceProps,
-          cButton: false
+          cButton: false,
+          resumeFlag: false
       });
   }
 
@@ -37,21 +40,30 @@ export default class App extends React.Component{
       this.setState({
           muteFlag: 0,
           objects: objects,
-          cButton: false
+          cButton: false,
+          resumeFlag: false
       });
   }
 
   muteVoice = (muteFlag) => {
       this.setState({
           muteFlag: muteFlag,
-          cButton: false
+          cButton: false,
+          resumeFlag: false
       });
   }
 
   changeButton = () => {
       this.setState({
           muteFlag: 0,
-          cButton: true
+          cButton: true,
+          resumeFlag: false
+      });
+  }
+
+  resumeMuteFlag = () => {
+      this.setState({
+          resumeFlag: true
       });
   }
 
@@ -63,9 +75,9 @@ export default class App extends React.Component{
             <div className="App">
                 <header className="App-header">
                     <h1>Sight ++</h1>
-                    <Navigation voiceProps={this.state.voiceProps} objects={this.state.objects} muteFlag={this.state.muteFlag} cButton={this.state.cButton} />
+                    <Navigation voiceProps={this.state.voiceProps} objects={this.state.objects} muteFlag={this.state.muteFlag} cButton={this.state.cButton} resumeMuteFlag={this.resumeMuteFlag}/>
                     <br/>
-                    <MuteVoices muteVoice={this.muteVoice} />
+                    <MuteVoices muteVoice={this.muteVoice} resumeFlag={this.state.resumeFlag}/>
                     <br/>
                     <VoiceConfig setVoiceProps={this.setVoiceProps} changeButton={this.changeButton}  muteFlag={this.state.muteFlag}/>
                     <br/>

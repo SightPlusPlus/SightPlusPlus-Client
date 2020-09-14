@@ -31,6 +31,12 @@ export default class MuteVoices extends Component {
 
     }
 
+    componentWillReceiveProps(newProps) {
+        if(newProps.resumeFlag === true) {
+            this.state.muteFlag = false;
+        }
+    }
+
     obtainVoices() {
         this.state.voiceList = window.speechSynthesis.getVoices();
     }
