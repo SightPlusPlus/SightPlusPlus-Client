@@ -88,8 +88,8 @@ class Navigation extends Component {
                 bell.play();
             }else {
                 if (self.state.isMute === false) {
-                    self.speakTexts(obj.name);
-                    console.log(obj.name);
+                    self.speakTexts(obj.msg);
+                    console.log(obj.msg);
                 }
             }
        })
