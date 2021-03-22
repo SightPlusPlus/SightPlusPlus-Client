@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+//  Starts the remote system.
+// To be used when a person takes the wearable camera
+// to start type into the terminal node start_remote.js
+
 const {writeDb} = require("./service");
 var WebSocketClient = require('websocket').client;
 
@@ -20,8 +24,8 @@ client.on('connect', function (connection) {
     connection.on('message', function (message) {
         if (message.type === 'utf8') {
             if (JSON.parse(message.utf8Data)['msg'] !== undefined) {
-                writeDb(JSON.parse(message.utf8Data)['msg'], JSON.parse(message.utf8Data)['priority']);
-                console.log(JSON.parse(message.utf8Data)['msg'], JSON.parse(message.utf8Data)['priority']);
+                writeDb(JSON.parse(message.utf8Data)['msg'], JSON.parse(message.utf8Data)['name'], JSON.parse(message.utf8Data)['priority']);
+                console.log(JSON.parse(message.utf8Data)['msg'], JSON.parse(message.utf8Data)['name'], JSON.parse(message.utf8Data)['priority']);
             }
         }
     });
@@ -30,7 +34,6 @@ client.on('connect', function (connection) {
         if (connection.connected) {
             var number = Math.round(Math.random() * 0xFFFFFF);
             connection.sendUTF(number.toString());
-            // setTimeout(sendNumber, 1000);
         }
     }
 

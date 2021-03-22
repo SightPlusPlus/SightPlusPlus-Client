@@ -1,5 +1,7 @@
+// Adds into the database at given coordinates
+
 let admin = require("firebase-admin");
-let serviceAccount = require("D:\\sightpulsplus\\SightPP_VoiceInterface\\webapp\\sight-firebase.json");
+let serviceAccount = require("../sight-firebase.json");
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -12,7 +14,7 @@ const db = admin.database();
 
 let args = process.argv.slice(2);
 
-function writeDb(msg, priority) {
+function writeDb(msg, name, priority) {
 
     (async () => {
 
@@ -21,6 +23,7 @@ function writeDb(msg, priority) {
         const ref = db.ref(path);
         ref.set({
                 message: msg,
+                name: name,
                 priority: priority,
         }).then(r => console.log('..'));
     })();

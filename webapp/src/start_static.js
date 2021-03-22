@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+//  Starts the static system.
+//  Uses the coordinates of the place and zone
+//  To be used when at locations (zones/places)
+//  To start type into the terminal node start_static.js <coordinates>
+
+
 const {writeDb} = require("./location");
 var WebSocketClient = require('websocket').client;
 
@@ -20,8 +26,8 @@ client.on('connect', function (connection) {
     connection.on('message', function (message) {
         if (message.type === 'utf8') {
             if (JSON.parse(message.utf8Data)['msg'] !== undefined) {
-                writeDb(JSON.parse(message.utf8Data)['msg'], JSON.parse(message.utf8Data)['priority']);
-                console.log(JSON.parse(message.utf8Data)['msg'], JSON.parse(message.utf8Data)['priority']);
+                writeDb(JSON.parse(message.utf8Data)['msg'], JSON.parse(message.utf8Data)['name'], JSON.parse(message.utf8Data)['priority']);
+                console.log(JSON.parse(message.utf8Data)['msg'], JSON.parse(message.utf8Data)['name'], JSON.parse(message.utf8Data)['priority']);
             }
         }
     });
