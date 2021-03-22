@@ -1,3 +1,5 @@
+//  Gets the public ip address
+
 function getIP() {
     const publicIp = require('public-ip');
 

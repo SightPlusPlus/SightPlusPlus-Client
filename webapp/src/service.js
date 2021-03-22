@@ -1,5 +1,7 @@
+// Adds into the firebase at the ip address
+
 let admin = require("firebase-admin");
-let serviceAccount = require("D:\\sightpulsplus\\SightPP_VoiceInterface\\webapp\\sight-firebase.json");
+let serviceAccount = require("../sight-firebase.json");
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -8,7 +10,7 @@ admin.initializeApp({
 
 const db = admin.database();
 
-function writeDb(msg, priority) {
+function writeDb(msg, name, priority) {
 
     const publicIp = require('public-ip');
 
@@ -22,6 +24,7 @@ function writeDb(msg, priority) {
         ref.set({
             object: {
                 message: msg,
+                name: name,
                 priority: priority,
             },
         }).then(r => console.log('..'));

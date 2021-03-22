@@ -1,3 +1,5 @@
+// Function to convert the given location into a path that is allowed by firebase
+
 function getPath(arg) {
     let path = 'locations/';
     for (let index = 0; index < arg.length; index++) {
