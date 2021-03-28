@@ -18,7 +18,7 @@ Download the installation package from the official website of [Node.js](https:/
 ## Run it
 + Install the dependencies
 
-After you download the project package and extract it, open CMD in the 'webapp' folder. 
+After you download the project package and extract it, open CMD in the 'client' folder. 
 Run these commands below:
 ```bash
 npm install
@@ -30,7 +30,7 @@ Please run the Intel_IXN_SightPP Server before running the web application follo
 [SightPlusPlus Server](https://github.com/SightPP/Intel_IXN_SightPP)
 
 
-+ Navigate to the webapp/src/ folder
++ Navigate to the client/src/ folder
 
 + If you need to use the remote functions of the system, run in the terminal:
 
