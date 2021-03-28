@@ -10,6 +10,8 @@ admin.initializeApp({
 
 const db = admin.database();
 
+const {getPath} = require("./ip_path");
+
 function writeDb(msg, name, priority) {
 
     const publicIp = require('public-ip');
@@ -29,16 +31,6 @@ function writeDb(msg, name, priority) {
             },
         }).then(r => console.log('..'));
     })();
-}
-
-function getPath(ip) {
-    let path = 'users/';
-    for (let index = 0; index < 3; index++) {
-        path += ip[index].toString();
-        path += '-';
-    }
-    path += ip[3].toString();
-    return path;
 }
 
 module.exports.writeDb = writeDb;
