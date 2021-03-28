@@ -46,6 +46,7 @@ node start_static.js <latitude, longitude>
 ```
 The system will convert the coordinates into an id so the app will be able to calculate the closes plate to run the static system.
 
+NOTE: The client and the app are both using Firebase. The credentials should be changed.
 
 ## Related APIs
 + [NodeJS public-ip](https://www.npmjs.com/package/public-ip)
